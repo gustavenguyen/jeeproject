@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+ 
+<persistence-unit name="JPAmanager" transaction-type="RESOURCE_LOCAL">
+<provider>org.hibernate.ejb.HibernatePersistence</provider>
+<non-jta-data-source>java:comp/env/jdbc/ii3511project</non-jta-data-source>
+ 
+<!-- Classes -->
+<class>com.jeeproject.Entities.User</class>
+ 
+<properties>
+ 
+<property name="hibernate.connection.datasource" value="java:comp/env/jdbc/ii3511project"/>
+<property name="hibernate.id.new_generator_mappings" value ="true"/>
+ 
+<property name="hibernate.archive.autodetection" value="class"/>
+<property name="hibernate.show_sql" value="true"/>
+<property name="hibernate.format_sql" value="true"/>
+<property name="hibernate.hbm2ddl.auto" value="update"/>
+<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+<property name="connection.autocommit" value="false"/>
+ 
+</properties>
+</persistence-unit>
+</persistence>

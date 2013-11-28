@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/">
+<Resource
+name="jdbc/ii3511project"
+auth="Container"
+type="javax.sql.DataSource"
+username="root"
+password="gustave"
+driverClassName="com.mysql.jdbc.Driver"
+url="jdbc:mysql://localhost:3306/ii3511project"
+maxActive="8"
+maxIdle="4"/>
+ 
+</Context>
