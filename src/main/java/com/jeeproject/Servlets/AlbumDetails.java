@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.jeeproject.AlbumDAO;
 import com.jeeproject.Entities.Album;
 import com.jeeproject.Entities.Comment;
 import com.jeeproject.Entities.User;
+import com.jeeproject.Models.AlbumDAO;
 import com.jeeproject.Models.AlbumDAOImpl;
 import com.jeeproject.Models.CommentDAO;
 import com.jeeproject.Models.CommentDAOImpl;

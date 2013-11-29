@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.jeeproject.AlbumDAO;
 import com.jeeproject.Entities.Album;
 
 

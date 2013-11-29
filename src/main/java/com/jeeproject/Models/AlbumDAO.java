@@ -1,4 +1,4 @@
-package com.jeeproject;
+package com.jeeproject.Models;
 
 import java.util.List;
 

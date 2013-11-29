@@ -10,6 +10,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
+import com.jeeproject.Models.AlbumDAO;
 import com.jeeproject.Models.AlbumDAOImpl;
 import com.jeeproject.Modules.ProjectModule;
 import com.jeeproject.Services.APIService;
@@ -19,7 +20,7 @@ import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.zdevra.guice.mvc.MvcModule;
 
-public class ProjectGuiceServletConfig extends GuiceServletContextListener {
+public class GuiceConfig extends GuiceServletContextListener {
     @Override
     protected Injector getInjector() {
         return Guice.createInjector(new ServletModule()  {
@@ -29,7 +30,7 @@ public class ProjectGuiceServletConfig extends GuiceServletContextListener {
              
          
 
-             bind(AlbumDAO.class ).to( AlbumDAOImpl.class );
+           
              bind(AlbumDAO.class ).to( AlbumDAOImpl.class );
              bind(APIService.class);
              bind(MessageBodyReader.class).to(JacksonJsonProvider.class);
@@ -37,7 +38,6 @@ public class ProjectGuiceServletConfig extends GuiceServletContextListener {
           
              Map<String, String> initParams = new HashMap<String, String>();
              initParams.put("com.sun.jersey.config.feature.Trace","true");
-             initParams.put("com.sun.jersey.config.property.packages","ii3511.project.Service");
              initParams.put("com.sun.jersey.api.json.POJOMappingFeature", "true");
              serve( "/rest/*").with(
                      GuiceContainer.class,

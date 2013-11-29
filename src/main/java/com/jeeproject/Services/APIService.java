@@ -16,10 +16,10 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.google.inject.Inject;
-import com.jeeproject.AlbumDAO;
 import com.jeeproject.Entities.Album;
 import com.jeeproject.Entities.Like;
 import com.jeeproject.Entities.User;
+import com.jeeproject.Models.AlbumDAO;
 import com.jeeproject.Models.AlbumDAOImpl;
 import com.jeeproject.Models.EMProvider;
 
