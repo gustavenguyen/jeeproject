@@ -5,11 +5,7 @@ import java.util.List;
 import com.jeeproject.Entities.Album;
 
 
-/**
- * User: marco
- * Date: 14/10/13
- * Time: 12:39
- */
+
 public interface AlbumDAO {
     
     public Album find(Integer id);

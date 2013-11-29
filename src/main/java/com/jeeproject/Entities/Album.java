@@ -9,11 +9,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-/**
- * User: marco
- * Date: 14/10/13
- * Time: 12:21
- */
 @Entity
 @Table(name="album")
 public class Album {
@@ -47,6 +42,16 @@ public class Album {
     @OneToMany(mappedBy="album")
     private List <Song> SongList;
     
+    public Album(){
+    	   
+    }
+    public Album(int id, String title, String category, int year, Artist artist){
+    	this.id=id;
+    	this.title=title;
+    	this.category=category;
+    	this.artist=artist;
+    	this.year=year;
+    }
     public Integer getRating() {
 		return rating;
 	}

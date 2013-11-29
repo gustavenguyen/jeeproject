@@ -1,6 +1,5 @@
 package com.jeeproject.Tests;
 
-/*
 import static com.jayway.restassured.RestAssured.expect;
 import static com.jayway.restassured.RestAssured.get;
 import static org.hamcrest.Matchers.equalTo;
@@ -24,4 +23,4 @@ public class ServiceTest {
 	public void testUserNotFound() {
 		expect().statusCode(200).when().get("/peguno-project/rest/api/albumbycat?cat=Pop");
 	}
-}*/
+}

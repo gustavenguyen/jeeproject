@@ -119,7 +119,7 @@ public class APIService {
 			Map <String, String> map = new HashMap <String,String>();
 			map.put("title", AlbumsByCat.get(i).getTitle());
 			map.put("category", AlbumsByCat.get(i).getCategory());
-	    	map.put("title", AlbumsByCat.get(i).getYear()+"");
+	    	map.put("year", Integer.toString(AlbumsByCat.get(i).getYear()));
 	    	map.put("Artist", AlbumsByCat.get(i).getArtist().getName());
 	    	AlbumsByCatList.add(map);
 		

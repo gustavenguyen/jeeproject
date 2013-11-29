@@ -1,6 +1,6 @@
 package com.jeeproject.Tests;
 
-/*
+
 
 import org.junit.Test;
 
@@ -17,4 +17,4 @@ import static org.mockito.Mockito.*;
 		    {
 		        assertThat(new Artist(1,"Phoenix")).isEqualTo(new Artist(1,"Phoenix"));
 		    }
-	}*/
+	}
