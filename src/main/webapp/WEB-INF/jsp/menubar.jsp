@@ -23,8 +23,8 @@
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
 				<li><a href="<%=request.getContextPath()%>">Home</a></li>
-				<li><a href="#about">About</a></li>
-				<li><a href="#contact">Contact</a></li>
+				<li><a href="<%=request.getContextPath()%>/discoverapi">Use our API </a></li>
+				<li><a href="<%=request.getContextPath()%>/about">About</a></li>
 
 			</ul>
 			<c:if test="${empty session_user}">
@@ -56,7 +56,7 @@
 	$(document).ready(function() {
 
 		$("#btn_login").click(function(event) {
-			
+			var redirect = "<c:out value='${request.getContextPath()}'/>";
 			var username = $("#username").val();
 			var psswd = $("#psswd").val();
 		

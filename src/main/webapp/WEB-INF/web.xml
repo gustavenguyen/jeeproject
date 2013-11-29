@@ -32,6 +32,16 @@
     <servlet-class>com.jeeproject.Servlets.AlbumDetails</servlet-class>
   </servlet>
   <servlet>
+    <display-name>DiscoverAPI</display-name>
+    <servlet-name>DiscoverAPI</servlet-name>
+    <servlet-class>com.jeeproject.Servlets.DiscoverAPI</servlet-class>
+  </servlet>
+   <servlet>
+    <display-name>About</display-name>
+    <servlet-name>About</servlet-name>
+    <servlet-class>com.jeeproject.Servlets.About</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>jersey-serlvet</servlet-name>
     <servlet-class>
 		com.sun.jersey.spi.container.servlet.ServletContainer
@@ -61,6 +71,14 @@
   <servlet-mapping>
     <servlet-name>AlbumDetails</servlet-name>
     <url-pattern>/albumdetails</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DiscoverAPI</servlet-name>
+    <url-pattern>/discoverapi</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>
+    <servlet-name>About</servlet-name>
+    <url-pattern>/about</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>home</welcome-file>

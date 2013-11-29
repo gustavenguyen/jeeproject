@@ -27,15 +27,14 @@
 <style>
 .center_form {
 	width: 500px;
-
 }
+
 .well {
-	width: 550px;
-
-
+	
 }
-.alert-danger{
-padding:5px;
+
+#description {
+	height: 200px;
 }
 </style>
 </head>
@@ -48,45 +47,18 @@ padding:5px;
 	<div class="container">
 		<!-- Example row of columns -->
 		<div class="well">
-	 
-			<div class="center_form">
-				<h2>Sign Up</h2>
-					
-				<form method="POST" >
-					
-					<div class="form-group">
-						<label>Username</label> <input type="text" name="username" value="<c:out value="${user.username}"/>"
-							class="form-control"> <br /> 
-						 	<c:if test="${MapErrors['username'].length()>0}"><span class ="alert alert-danger">${MapErrors['username'] }</span>
-					</c:if>
-					</div>
-					<div class="form-group">
-						<label>Email Address</label> <input type="text" name="email" value="<c:out value="${user.email}"/>"
-							class="form-control"> <br />
-						<c:if test="${MapErrors['email'].length()>0}">	<span class ="alert alert-danger">${MapErrors['email'] }</span>
-					</c:if>
-					</div>
-					
-					<div class="form-group">
-						<label>Password</label> <input type="password" name="password"
-							class="form-control"><br />
-							<c:if test="${MapErrors['password'].length()>0}"><span class ="alert alert-danger">${MapErrors['password'] }</span>
-					</c:if>
-					</div>
-					<div class="form-group">
-						<label>Confirm password</label> <input type="password"
-							name="confirmpassword" class="form-control"><br />
-					</div>
-					 <input
-						type="submit" value="Sign up" class="btn btn-primary pull-right">
-					<div class="clearfix"></div>
-				</form>
-			</div>
+
+			<div id="description">
+				<h3>Discover our API to find album using our web service</h3>
+          <br />
+			The GPNtunes API is a RESTful API which uses HTTP requests and JSON responses.
 		</div>
 
 		<jsp:include page="footer.jsp" />
 	</div>
+
 	
+
 	<!-- /container -->
 
 

@@ -12,10 +12,10 @@ import com.jeeproject.Models.UserDAOImpl;
 
 public class FormModel {
     private Map<String, String> errors;
-	 
+    UserDAO userDAO ;
     
     public FormModel(){
-    	 
+    userDAO = new UserDAOImpl(); 
     }
 	public User subscribeUser( HttpServletRequest request ) {
 		errors= new HashMap<String, String>();
@@ -23,12 +23,12 @@ public class FormModel {
         String password = getValueFromField(request.getParameter("password"));
         String confirmpassword = getValueFromField(request.getParameter("confirmpassword"));
         String username = getValueFromField(request.getParameter("username"));
-        String terms=(request.getParameter("terms")!=null)?request.getParameter("terms") :"";
+       // String terms=(request.getParameter("terms")!=null)?request.getParameter("terms") :"";
       
         validateUsername(username);
         validateEmail(email);
         validatePassword(password,confirmpassword);
-        agreeterms(terms);
+     //   agreeterms(terms);
 	   if( errors.size()==0 )
 	   {  
 		  try {
@@ -38,7 +38,7 @@ public class FormModel {
 			e.printStackTrace();
 		}
 		  User newUser = new User(username,email,password);
-	      new UserDAOImpl().AddUser(newUser);
+	      userDAO.AddUser(newUser);
 		   return newUser;
 	} 
 	   else
@@ -53,7 +53,14 @@ public class FormModel {
 	private void validateEmail( String email )  {
 	    if (!email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" ) ) 
 	        	errors.put("email","Email address is not valid");
-	    
+	    else if(!userDAO.CheckEmailAvailable(email))
+	    {
+	    	errors.put("email","Email address is already used");
+	    }
+	    else
+	    {
+	    	
+	    }
 	     
 	} 
 	 
@@ -73,7 +80,8 @@ public class FormModel {
 	} 
 	 
 	private void validateUsername( String username ){
-	    if(username == null ){
+	   
+		if(username == null ){
 	    	errors.put("username","Username field is empty");
 	    	
 	    }
@@ -81,17 +89,21 @@ public class FormModel {
 	      	errors.put("username","Username must contain at leasts three characters");
 	    
 	    }
+	    else if(!userDAO.CheckUsernameAvailable(username))
+	    {
+	    	errors.put("username","Username not available");
+	    }
 	    else
 	    {
 	    	
 	    }
 	}
-	private void agreeterms(String agreeterms){
+/*	private void agreeterms(String agreeterms){
 		System.out.println("agreeterms"+agreeterms);
 		if (!agreeterms.equals("on"))
 		errors.put("agreeterms", "You must agree the terms and conditions");
 		System.out.println(errors.get("agreeterms"));
-	}
+	}*/
 	public Map <String,String> getErrors (){
 		
 	return errors;

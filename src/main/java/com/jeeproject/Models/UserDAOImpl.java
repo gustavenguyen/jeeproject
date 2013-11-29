@@ -55,6 +55,49 @@ public class UserDAOImpl implements UserDAO{
        return null;
     }
 	}
+	
+	@Override
+	public boolean CheckUsernameAvailable(String username) {
+		em = new EMProvider().getEM(); 
+		try{
+		    Query query = em.createQuery("from User u where u.username= :username");
+		query.setParameter("username", username);
+		
+			User user = (User) query.getSingleResult();
+		   if(user!=null)
+			return false;
+		   else 
+			   return true;
+
+		} catch ( NoResultException e ) {
+	        return true;
+	    } catch ( Exception e ) {
+	       e.printStackTrace();
+	       return false;
+	    }
+	}
+
+
+	@Override
+	public boolean CheckEmailAvailable(String email) {
+		em = new EMProvider().getEM(); 
+		try{
+		    Query query = em.createQuery("from User u where u.email= :email");
+		query.setParameter("email", email);
+		
+			User user = (User) query.getSingleResult();
+		   if(user!=null)
+			return false;
+		   else 
+			   return true;
+
+		} catch ( NoResultException e ) {
+	        return true;
+	    } catch ( Exception e ) {
+	       e.printStackTrace();
+	       return false;
+	    }
+	}
 	public static String sha1(String input) throws NoSuchAlgorithmException {
 		MessageDigest mDigest = MessageDigest.getInstance("SHA1");
 		byte[] result = mDigest.digest(input.getBytes());
