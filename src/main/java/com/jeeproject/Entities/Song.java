@@ -1,33 +1,27 @@
 package com.jeeproject.Entities;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
-
-/**
- * User: marco
- * Date: 14/10/13
- * Time: 12:21
- */
 @Entity
 @Table(name="song")
 public class Song {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
     private Integer track;
 
     private String title;
 
-    private String category;
-
-    private Integer year;
-
+    
     @ManyToOne
     @JoinColumn(name="artist_id")
     private Artist composer;
@@ -36,6 +30,18 @@ public class Song {
     @JoinColumn(name="album_id")
     private Album album;
 
+   public Song(){
+	   
+   }
+
+	public Song(int track, String title, Artist composer, Album album) {
+		this.track = track;
+		this.title = title;
+		this.composer = composer;
+		this.album = album;
+
+	}
+    
     public Integer getId() {
         return id;
     }
@@ -57,14 +63,6 @@ public class Song {
     }
 
 
-    public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
 	public Album getAlbum() {
 		return album;
 	}
@@ -73,14 +71,7 @@ public class Song {
 		this.album = album;
 	}
 
-	public Integer getYear() {
-        return year;
-    }
-
-    public void setYear(Integer year) {
-        this.year = year;
-    }
-
+	
     public Artist getComposer() {
         return composer;
     }

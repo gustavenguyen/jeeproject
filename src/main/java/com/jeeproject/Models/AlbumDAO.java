@@ -12,4 +12,7 @@ public interface AlbumDAO {
     public List <Album> getAlbums(); 
     public List <Album> getAlbumsByCategory(String category);
     public List <Album> getAlbumsByAuthor(String author_name, String category);
+    public List <Album> getAlbumsByAlbumTitle(String album_title, String category);
+    public List <Album> getAlbumsBySongTitle(String song_title, String category);
 }
+

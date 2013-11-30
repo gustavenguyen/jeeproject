@@ -54,7 +54,7 @@ public class APIServiceTest {
 		map.put("Artist", "Coldplay");
     	AlbumsByCatList2.add(map);
     	
-	  assertThat(service.getAlbumByCategory("Rock")).isEqualTo(AlbumsByCatList2);
+	  assertThat(service.getAlbums("bycat","Rock")).isEqualTo(AlbumsByCatList2);
 	    }
 	}
 

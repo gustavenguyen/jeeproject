@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
 
 import javax.servlet.http.HttpServlet;
@@ -17,9 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.jeeproject.Entities.Album;
+import com.jeeproject.Entities.Song;
 import com.jeeproject.Entities.User;
 import com.jeeproject.Models.AlbumDAO;
 import com.jeeproject.Models.AlbumDAOImpl;
+import com.jeeproject.Models.EMProvider;
 import com.jeeproject.Models.UserDAO;
 import com.jeeproject.Models.UserDAOImpl;
 
@@ -42,6 +45,18 @@ public class Home extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+	/*	List<Album> phoenix = albumdao.getAlbumsByAlbumTitle("amad", "all");
+		Song lisztomania = new Song(1,"Lisztomania",phoenix.get(0).getArtist(),phoenix.get(0));
+		try {
+				
+			EntityManager em = new EMProvider().getEM();	
+			em.getTransaction().begin();
+	         em.persist(lisztomania);
+	         em.getTransaction().commit();
+	         em.close(); 
+	         } catch ( Exception e ) {
+	      e.printStackTrace();
+	     };*/
 		 AlbumsList = albumdao.getAlbums();
 			TreeSet <String> CategoriesList=new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 			for (int i=0;i<AlbumsList.size();i++)
@@ -66,6 +81,10 @@ public class Home extends HttpServlet {
 		String category_selected = request.getParameter("category_selected");
 		if(search_type.equals("author"))
 			AlbumsList = albumdao.getAlbumsByAuthor(search_name, category_selected);
+		if(search_type.equals("albumtitle"))
+			AlbumsList = albumdao.getAlbumsByAlbumTitle(search_name, category_selected);
+		if(search_type.equals("songtitle"))
+			AlbumsList = albumdao.getAlbumsBySongTitle(search_name, category_selected);
 	}
 	 request.setAttribute( "AlbumsList", AlbumsList);
 		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );

@@ -11,6 +11,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -36,20 +37,7 @@ import org.zdevra.guice.mvc.annotations.View;
 @Path("/api")
 public class APIService {
 
-	/*
-	 * 
-	 * private AlbumDAO albumDAO;
-	 * 
-	 * @Inject public APIService(AlbumDAO albumDAO) { this.albumDAO = albumDAO;
-	 * }
-	 * 
-	 * @Path("/([0-9]+)")
-	 * 
-	 * @Model("album")
-	 * 
-	 * @View("WEB-INF/jsp/album.jsp") public Album getAlbumByID(Integer id) {
-	 * return albumDAO.find(id); }
-	 */
+	
 	 private AlbumDAO albumdao;
 	@Inject 
 	public APIService(AlbumDAO albumDAO) { 
@@ -102,57 +90,54 @@ public class APIService {
 	}
 	
 	@GET
-	@Path("/albumbycat")
+	@Path("/albums/{param}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List <Map<String, String>> getAlbumByCategory(
-			@QueryParam("cat") String category) {
+	public List <Map<String, String>> getAlbums(@PathParam("param") String param,
+			@QueryParam("name") String name) {
 		System.out.println("service started...");
+		List <Map<String, String>> AlbumsMapList = new ArrayList <Map<String, String>>();
+	if(param.equals("bycat"))
+	{
+		List <Album> AlbumsByCat = albumdao.getAlbumsByCategory(name); 
+		AlbumsMapList= ConvertToMapList(AlbumsByCat);
 		
+		return AlbumsMapList;
+	}
+	else if(param.equals("byauthor"))
+	{
+        List <Album> AlbumsByAuth = albumdao.getAlbumsByAuthor(name,"all"); 
+		AlbumsMapList= ConvertToMapList(AlbumsByAuth);
+	}
+	else if(param.equals("byalbumtitle"))
+	{
+        List <Album> AlbumsByAuth = albumdao.getAlbumsByAlbumTitle(name,"all"); 
+		AlbumsMapList= ConvertToMapList(AlbumsByAuth);
+	}
+	else if(param.equals("bysongtitle"))
+	{
+        List <Album> AlbumsByAuth = albumdao.getAlbumsBySongTitle(name,"all"); 
+		AlbumsMapList= ConvertToMapList(AlbumsByAuth);
+	}
+	return AlbumsMapList;
+	
+}
+	
+	public List <Map<String, String>> ConvertToMapList(List <Album> AlbumsList){
 		
-		List <Album> AlbumsByCat = albumdao.getAlbumsByCategory(category); 
-		List <Map<String, String>> AlbumsByCatList= new ArrayList <Map<String, String>> ();
+    List <Map<String, String>> AlbumMapList= new ArrayList <Map<String, String>> ();
 		
-		for(int i=0; i<AlbumsByCat.size();i++)
+		for(int i=0; i<AlbumsList.size();i++)
 		{
 			
-			System.out.println(AlbumsByCat.size()+"");
+			System.out.println(AlbumsList.size()+"");
 			Map <String, String> map = new HashMap <String,String>();
-			map.put("title", AlbumsByCat.get(i).getTitle());
-			map.put("category", AlbumsByCat.get(i).getCategory());
-	    	map.put("year", Integer.toString(AlbumsByCat.get(i).getYear()));
-	    	map.put("Artist", AlbumsByCat.get(i).getArtist().getName());
-	    	AlbumsByCatList.add(map);
+			map.put("title", AlbumsList.get(i).getTitle());
+			map.put("category", AlbumsList.get(i).getCategory());
+	    	map.put("year", Integer.toString(AlbumsList.get(i).getYear()));
+	    	map.put("Artist", AlbumsList.get(i).getArtist().getName());
+	    	AlbumMapList.add(map);
 		
 		}
-	    
-		return AlbumsByCatList;
-
-}
-	@GET
-	@Path("/albumbyauthor")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List <Map<String, String>> getAlbumByAuthor(
-			@QueryParam("author") String author) {
-		System.out.println("service started...");
-		
-		AlbumDAO albumdao = new AlbumDAOImpl();
-		List <Album> AlbumsByCat = albumdao.getAlbumsByAuthor(author,"all"); 
-		List <Map<String, String>> AlbumsByCatList= new ArrayList <Map<String, String>> ();
-		
-		for(int i=0; i<AlbumsByCat.size();i++)
-		{
-			
-			System.out.println(AlbumsByCat.size()+"");
-			Map <String, String> map = new HashMap <String,String>();
-			map.put("title", AlbumsByCat.get(i).getTitle());
-			map.put("category", AlbumsByCat.get(i).getCategory());
-	    	map.put("title", AlbumsByCat.get(i).getYear()+"");
-	    	map.put("Artist", AlbumsByCat.get(i).getArtist().getName());
-	    	AlbumsByCatList.add(map);
-		
-		}
-	    
-		return AlbumsByCatList;
-
-}
+		return AlbumMapList;
+	}
 }

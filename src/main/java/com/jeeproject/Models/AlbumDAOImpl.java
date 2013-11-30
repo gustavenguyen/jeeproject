@@ -1,11 +1,13 @@
 package com.jeeproject.Models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.jeeproject.Entities.Album;
+import com.jeeproject.Entities.Song;
 
 
 
@@ -54,6 +56,53 @@ public class AlbumDAOImpl implements AlbumDAO{
 		List<Album> results = query.getResultList();
 		 em.close();	
 		return results;
+       
+	}
+	public List<Album> getAlbumsByAlbumTitle(String album_title, String category) {
+		em = new EMProvider().getEM(); 
+		
+	    String selectquery = "from Album a where a.title like :title ";
+		if(!category.equals("all"))
+			selectquery=selectquery+"and a.category= :category ";
+	    Query query = em.createQuery(selectquery);
+		
+	    query.setParameter("title", "%"+album_title+"%" );
+	    if(!category.equals("all"))
+		{
+	    query.setParameter("category", category );
+		}
+		@SuppressWarnings("unchecked")
+		List<Album> results = query.getResultList();
+		 em.close();	
+		return results;
+       
+	}
+	public List<Album> getAlbumsBySongTitle(String song_title, String category) {
+		em = new EMProvider().getEM(); 
+		
+	    String selectquery = "from Song s where s.title like :songtitle ";
+		
+	    Query query = em.createQuery(selectquery);
+		
+	    query.setParameter("songtitle", "%"+song_title+"%" );
+	   
+		@SuppressWarnings("unchecked")
+		List<Song> results = query.getResultList();
+		System.out.println("size"+results.size());
+		List <Album> AlbumsResults = new ArrayList <Album>();
+		
+		for (int i=0; i<results.size();i++ )
+		{
+			if(!category.equals("all"))
+			{   if(results.get(i).getAlbum().getCategory().equals(category))
+			    	 AlbumsResults.add(results.get(i).getAlbum());
+			}    
+			else
+		      AlbumsResults.add(results.get(i).getAlbum());
+			    	 
+		}
+		 em.close();	
+		return AlbumsResults;
        
 	}
 

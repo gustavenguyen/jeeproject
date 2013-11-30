@@ -60,7 +60,8 @@ margin-top:5px;
 				<input type="checkbox"  name ="keywords_checkbox" id="useKeywords"> with keywords<br>
 			</div>
 				<div id="keywords_block" style="display:none;">&nbsp;&nbsp;&nbsp;<select name="search_type" id="select_type" disabled="disabled">
-				        		<option value="songtitle">Song title</option>
+				        <option value="albumtitle">Album title</option>		
+				        <option value="songtitle">Song title</option>
 						<option value="author">author</option>
 					
 				</select>&nbsp;&nbsp;&nbsp;
