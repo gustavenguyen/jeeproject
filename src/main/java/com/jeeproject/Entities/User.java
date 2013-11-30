@@ -1,5 +1,7 @@
 package com.jeeproject.Entities;
 
+import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -60,5 +62,18 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public boolean equals(Object obj)
+	{
+	    if (obj == null)
+	    {
+	        return false;
+	    }
+	    if (getClass() != obj.getClass())
+	    {
+	        return false;
+	    }
+	    final User other = (User) obj;
 
+	    return Objects.equals(this.username, other.username) && Objects.equals(this.email, other.email) && Objects.equals(this.password, other.password);
+	}
 }

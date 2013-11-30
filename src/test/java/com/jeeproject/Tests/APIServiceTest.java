@@ -1,6 +1,5 @@
 package com.jeeproject.Tests;
 
-
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -19,42 +18,35 @@ import com.jeeproject.Services.APIService;
 
 public class APIServiceTest {
 
-	   @Test
-	    public void testGetDeveloper()
-	    {
-	        AlbumDAO dao = mock(AlbumDAO.class);
-	        Artist artist = mock(Artist.class);
-	        APIService service = new APIService(dao);
-	        List <Album> AlbumsByCat = new ArrayList <Album>();
-	        AlbumsByCat.add(new Album(1, "Mylo Xyloto", "Pop", 2011, artist));
-	        when(dao.getAlbumsByCategory("Rock")).thenReturn(AlbumsByCat);
-	        when(artist.getName()).thenReturn("Coldplay");
-		//	List <Map<String, String>> AlbumsByCatList= new ArrayList <Map<String, String>> ();
-			
-		/*	for(int i=0; i<AlbumsByCat.size();i++)
-			{
-				
-				System.out.println(AlbumsByCat.size()+"");
-				Map <String, String> map = new HashMap <String,String>();
-				map.put("title", AlbumsByCat.get(i).getTitle());
-				map.put("category", AlbumsByCat.get(i).getCategory());
-		    	map.put("title", AlbumsByCat.get(i).getYear()+"");
-		    	map.put("Artist", AlbumsByCat.get(i).getArtist().getName());
-		    	AlbumsByCatList.add(map);
-			
-			}*/
-	       
-	//  System.out.println(AlbumsByCatList.get(0).get("title"));
-	  List <Map<String, String>> AlbumsByCatList2= new ArrayList <Map<String, String>> ();
-	  Map <String, String> map = new HashMap <String,String>();
+	@Test
+	public void testGetAlbums() {
 		
-		map.put("category", "Pop");
-		map.put("title","Mylo Xyloto");
-		map.put("year","2011");
-		map.put("Artist", "Coldplay");
-    	AlbumsByCatList2.add(map);
-    	
-	  assertThat(service.getAlbums("bycat","Rock")).isEqualTo(AlbumsByCatList2);
-	    }
-	}
+		AlbumDAO dao = mock(AlbumDAO.class);
+		Artist artist = mock(Artist.class);
+		
+		APIService service = new APIService(dao);
 
+		List<Album> Albums = new ArrayList<Album>();
+		Albums.add(new Album(1, "Mylo Xyloto", "Pop", 2011, artist)); //des que la dao va rechercher un album on retourne celui-ci
+
+		when(dao.getAlbumsByCategory("Pop")).thenReturn(Albums);
+		when(dao.getAlbumsByAuthor("Coldplay", "all")).thenReturn(Albums);
+		when(dao.getAlbumsBySongTitle("Every tear drop is a waterfall", "all")).thenReturn(Albums);
+		when(dao.getAlbumsByAlbumTitle("Mylo Xyloto", "all")).thenReturn(Albums);
+		when(artist.getName()).thenReturn("Coldplay");
+
+		List<Map<String, String>> expectedAlbumsList = new ArrayList<Map<String, String>>(); // on définit le résultat attendu
+		Map<String, String> map = new HashMap<String, String>();
+
+		map.put("category", "Pop");
+		map.put("title", "Mylo Xyloto");
+		map.put("year", "2011");
+		map.put("Artist", "Coldplay");
+		expectedAlbumsList.add(map);
+
+		assertThat(service.getAlbums("bycat", "Pop")).isEqualTo(expectedAlbumsList);
+		assertThat(service.getAlbums("byauthor", "Coldplay")).isEqualTo(expectedAlbumsList);
+		assertThat(service.getAlbums("bysongtitle","Every tear drop is a waterfall")).isEqualTo(expectedAlbumsList);
+		assertThat(service.getAlbums("byalbumtitle", "Mylo Xyloto")).isEqualTo(expectedAlbumsList);
+	}
+}

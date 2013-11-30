@@ -1,5 +1,7 @@
 package com.jeeproject.Entities;
 
+import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -52,5 +54,18 @@ public void setDate(String date) {
 	this.date = date;
 }
 
+public boolean equals(Object obj)
+{
+    if (obj == null)
+    {
+        return false;
+    }
+    if (getClass() != obj.getClass())
+    {
+        return false;
+    }
+    final Comment other = (Comment) obj;
 
+    return Objects.equals(this.author, other.author) && Objects.equals(this.message, other.message) && Objects.equals(this.date, other.date) && Objects.equals(this.album, other.album);
+}
 }

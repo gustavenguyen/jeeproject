@@ -1,5 +1,7 @@
 package com.jeeproject.Entities;
 
+import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -80,5 +82,19 @@ public class Song {
         this.composer = composer;
     }
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final Song other = (Song) obj;
 
+        return Objects.equals(this.track, other.track) && Objects.equals(this.title, other.title)&& Objects.equals(this.composer, other.composer) && Objects.equals(this.album, other.album);
+    }
 }

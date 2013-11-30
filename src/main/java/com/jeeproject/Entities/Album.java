@@ -1,6 +1,7 @@
 package com.jeeproject.Entities;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -103,5 +104,20 @@ public class Album {
 
     public void setYear(Integer year) {
         this.year = year;
+    }
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final Album other = (Album) obj;
+
+        return Objects.equals(this.id, other.id) && Objects.equals(this.title, other.title) && Objects.equals(this.category, other.category) && Objects.equals(this.artist, other.artist)&& Objects.equals(this.year, other.year);
     }
 }
