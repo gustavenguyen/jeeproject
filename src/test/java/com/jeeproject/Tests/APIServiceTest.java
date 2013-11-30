@@ -14,6 +14,7 @@ import org.junit.Test;
 import com.jeeproject.Entities.Album;
 import com.jeeproject.Entities.Artist;
 import com.jeeproject.Models.AlbumDAO;
+import com.jeeproject.Models.LikeDAO;
 import com.jeeproject.Services.APIService;
 
 public class APIServiceTest {
@@ -22,9 +23,10 @@ public class APIServiceTest {
 	public void testGetAlbums() {
 		
 		AlbumDAO dao = mock(AlbumDAO.class);
+		LikeDAO likedao = mock(LikeDAO.class);
 		Artist artist = mock(Artist.class);
 		
-		APIService service = new APIService(dao);
+		APIService service = new APIService(dao, likedao);
 
 		List<Album> Albums = new ArrayList<Album>();
 		Albums.add(new Album(1, "Mylo Xyloto", "Pop", 2011, artist)); //des que la dao va rechercher un album on retourne celui-ci

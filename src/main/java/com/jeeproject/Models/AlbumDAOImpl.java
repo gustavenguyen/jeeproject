@@ -18,6 +18,7 @@ public class AlbumDAOImpl implements AlbumDAO{
 		// TODO Auto-generated method stub
 		em = new EMProvider().getEM(); 
 		Album album = em.find(Album.class, id);
+		em.close();
 		return album;
 	}
 
@@ -27,6 +28,7 @@ public class AlbumDAOImpl implements AlbumDAO{
 	    Query query = em.createQuery("select a from Album as a");
 	    @SuppressWarnings("unchecked")
 		List<Album> results = query.getResultList();
+	    em.close();
 	    return results;
 	}
 	@Override
@@ -37,6 +39,7 @@ public class AlbumDAOImpl implements AlbumDAO{
 	query.setParameter("category", category );
 	    @SuppressWarnings("unchecked")
 		List<Album> results = query.getResultList();
+	    em.close();
 	    return results;
 	}
 	public List<Album> getAlbumsByAuthor(String author_name, String category) {
@@ -105,7 +108,20 @@ public class AlbumDAOImpl implements AlbumDAO{
 		return AlbumsResults;
        
 	}
+public int updateAlbumRating(String album_id){
 
- 
+	em = new EMProvider().getEM();
+	em.getTransaction().begin();
+   
+	Album albumToUpdate = em.find(Album.class, Integer.parseInt(album_id));
+	int albumRating = albumToUpdate.getRating();
+	System.out.println(""+ albumRating);
+	albumRating=albumRating+1;
+	albumToUpdate.setRating(albumRating);
+	em.getTransaction().commit();	
+             
+    em.close(); 
+    return albumRating;
+}
 }
    

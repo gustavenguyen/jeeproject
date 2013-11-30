@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.util.*"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
@@ -52,9 +52,27 @@
 				<h2>${chosen_album.title}</h2>
 
 				${chosen_album.artist.name}<br /> ${chosen_album.category}<br />
-				<br /> <span id="number_like" style ="visibility:${(chosen_album.rating>0) ? 'visible': 'hidden'}">${chosen_album.rating} personnes aiment ça</span> 
+				<br /> <span id="number_like" style ="visibility:${(chosen_album.rating>0) ? 'visible': 'hidden'}">
+			
+			<c:choose>
+			 <c:when test="${chosen_album.rating==1 && hasliked == 'no'}"> 1 person likes this.
+  
+      </c:when>
+       <c:when test="${chosen_album.rating==1 && hasliked == 'yes'}">You like this.
+  
+      </c:when>
+      <c:when test="${!empty session_user && hasliked == 'yes'}">${chosen_album.rating-1} people and you like this.
+  
+      </c:when>
+      <c:otherwise>${chosen_album.rating} people like this.
+      </c:otherwise>
+</c:choose>
+			
+				
+				</span> 
 				<br />
-				<button type="button" class="btn btn-primary" id="btn_like">Like</button>
+			<c:if test="${!empty session_user && hasliked == 'no'}">	<button type="button" class="btn btn-primary" id="btn_like">Like</button>
+			</c:if>
 			</div>
 			<form method="POST">
 				<textarea class="form-control" rows="3" name="comment_value"></textarea>

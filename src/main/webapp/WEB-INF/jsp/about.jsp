@@ -48,7 +48,7 @@
 		
 				<h2>About us</h2>
       <br />
-				Website developed by Gustave Nguyen, Nora jout and Pejman Haghou.
+				Website developed by Gustave Nguyen, Nora Jout and Pejman Haghou.
 				
 				
 		</div>

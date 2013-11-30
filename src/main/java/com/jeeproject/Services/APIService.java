@@ -23,6 +23,7 @@ import com.jeeproject.Entities.User;
 import com.jeeproject.Models.AlbumDAO;
 import com.jeeproject.Models.AlbumDAOImpl;
 import com.jeeproject.Models.EMProvider;
+import com.jeeproject.Models.LikeDAO;
 
 
 import org.zdevra.guice.mvc.annotations.Controller;
@@ -39,9 +40,11 @@ public class APIService {
 
 	
 	 private AlbumDAO albumdao;
+	 private LikeDAO likedao;
 	@Inject 
-	public APIService(AlbumDAO albumDAO) { 
+	public APIService(AlbumDAO albumDAO, LikeDAO likeDAO) { 
 		this.albumdao = albumDAO;
+		this.likedao=likeDAO;
 	 }
 	@GET
 	@Path("/like")
@@ -50,10 +53,9 @@ public class APIService {
 			@QueryParam("album") String album_id,
 			@QueryParam("user") String username) {
 		System.out.println("service started...");
-		EntityManager em = new EMProvider().getEM();
-		Like CheckUserAlreadyLiked = null;
-		int albumRating = 0;
-		try {
+		int albumRating =0;
+		
+	/*	try {
 			Query query = em.createQuery("SELECT l FROM Like l WHERE l.album.id= :albumid AND l.user.id=(Select u.id from User u where u.username= :username)");
 			query.setParameter("albumid", Integer.parseInt(album_id));
 			query.setParameter("username", username);
@@ -72,19 +74,27 @@ public class APIService {
                      
 		         em.close(); 
 				System.out.println("cest bon"+albumToUpdate.getRating());
-			                                                                                                                         
+			albumRating = albumdao.updateAlbumRating(album_id);   
+			likedao.addLike(username,album_id);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
+		
 		Map<String, Object> results = new HashMap<String, Object>();
-		if (CheckUserAlreadyLiked != null) {
-
+		if (likedao.HasUserLiked(album_id, username) != null) {
+			albumRating = albumdao.updateAlbumRating(album_id);   
+			likedao.addLike(username,album_id);
+			System.out.println("user has already liked this album...");
 			results.put("success", 0);
 
 		} else {
+		   albumRating = albumdao.updateAlbumRating(album_id);   
+			likedao.addLike(username,album_id);
 			results.put("success", 1);
             results.put("rating", albumRating);
-		}
+	
+			}
 
 		return results;
 	}

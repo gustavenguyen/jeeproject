@@ -20,6 +20,8 @@ import com.jeeproject.Models.AlbumDAO;
 import com.jeeproject.Models.AlbumDAOImpl;
 import com.jeeproject.Models.CommentDAO;
 import com.jeeproject.Models.CommentDAOImpl;
+import com.jeeproject.Models.LikeDAO;
+import com.jeeproject.Models.LikeDAOImpl;
 
 /**
  * Servlet implementation class AlbumDetails
@@ -44,16 +46,32 @@ public class AlbumDetails extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		album_id= Integer.parseInt(request.getParameter("album"));
 		AlbumDAO albumdao = new AlbumDAOImpl();
+		LikeDAO likedao = new LikeDAOImpl();
 		Album chosen_album=albumdao.find(album_id);
 		System.out.println("chosen"+chosen_album.getTitle());
 		// TODO Auto-generated method stub
+		
 		
 		 request.setAttribute( "chosen_album", chosen_album);
 		
 		 CommentDAO commentdao = new CommentDAOImpl();  
 		 List <Comment> CommentsList =commentdao.getCommentsByAlbum(album_id);
 			
-		/*	for (int i=0;i<CommentsList.size();i++)
+		 if(request.getSession(false) != null){
+			    HttpSession session = request.getSession();
+			  User loggedUser = (User) session.getAttribute("session_user");
+			if(loggedUser!=null)
+			{ System.out.println("connecté");
+			  if(likedao.HasUserLiked(request.getParameter("album"), loggedUser.getUsername())!=null)
+				  request.setAttribute( "hasliked", "yes");
+			  else
+				  request.setAttribute( "hasliked", "no");
+			}
+			else
+				  System.out.println("pas connecté");
+			}
+			
+		 /*	for (int i=0;i<CommentsList.size();i++)
 			{System.out.println(CommentsList.get(i).getMessage());
 			
 			}

@@ -12,6 +12,8 @@ import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 import com.jeeproject.Models.AlbumDAO;
 import com.jeeproject.Models.AlbumDAOImpl;
+import com.jeeproject.Models.LikeDAO;
+import com.jeeproject.Models.LikeDAOImpl;
 import com.jeeproject.Modules.ProjectModule;
 import com.jeeproject.Services.APIService;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
@@ -32,6 +34,7 @@ public class GuiceConfig extends GuiceServletContextListener {
 
            
              bind(AlbumDAO.class ).to( AlbumDAOImpl.class );
+             bind(LikeDAO.class ).to( LikeDAOImpl.class );
              bind(APIService.class);
              bind(MessageBodyReader.class).to(JacksonJsonProvider.class);
              bind(MessageBodyWriter.class).to(JacksonJsonProvider.class);
