@@ -101,7 +101,7 @@ public class AlbumDetails extends HttpServlet {
 	    commentText = request.getParameter("comment_value");
 	    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	    String currentDate = sdf.format(new Date());
-	    Comment newComment = new Comment("gus",commentText,currentDate, chosen_album);
+	    Comment newComment = new Comment(userconnected,commentText, new Date(), chosen_album);
 	    CommentDAO commentDao = new CommentDAOImpl();
 	    commentDao.addComment(newComment);
 	

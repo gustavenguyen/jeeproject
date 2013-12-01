@@ -19,7 +19,7 @@ public class CommentDAOImpl implements CommentDAO{
 	@Override
 	public List <Comment> getCommentsByAlbum(int album_id) {
 	try{	em = new EMProvider().getEM(); 
-	    Query query = em.createQuery("from Comment as c where album.id= :albumid");
+	    Query query = em.createQuery("from Comment as c where album.id= :albumid order by c.date DESC");
 	query.setParameter("albumid", album_id );
 	    @SuppressWarnings("unchecked")
 		List<Comment> results = query.getResultList();

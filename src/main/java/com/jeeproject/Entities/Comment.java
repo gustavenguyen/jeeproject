@@ -1,11 +1,16 @@
 package com.jeeproject.Entities;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="comments")
@@ -13,9 +18,12 @@ public class Comment {
 
 @Id
 private int id;
-private String author;
+@ManyToOne
+private User author;
 private String message;
-private String date;
+@Column(name = "date")
+@Temporal(TemporalType.TIMESTAMP)
+private Date date;
 @ManyToOne
 private Album album;
 
@@ -28,17 +36,17 @@ public void setAlbum(Album album) {
 public Comment(){
 	
 }
-public Comment(String author, String message, String date, Album album)
+public Comment(User author, String message, Date date, Album album)
 {
 	this.author=author;
 	this.message=message;
 	this.date=date;
 	this.album=album;
 }
-public String getAuthor() {
+public User getAuthor() {
 	return author;
 }
-public void setAuthor(String author) {
+public void setAuthor(User author) {
 	this.author = author;
 }
 public String getMessage() {
@@ -48,9 +56,11 @@ public void setMessage(String message) {
 	this.message = message;
 }
 public String getDate() {
-	return date;
+	 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	    String currentDate = sdf.format(this.date);
+	return currentDate;
 }
-public void setDate(String date) {
+public void setDate(Date date) {
 	this.date = date;
 }
 

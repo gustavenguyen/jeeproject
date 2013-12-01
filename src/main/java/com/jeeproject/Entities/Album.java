@@ -22,7 +22,7 @@ public class Album {
 
     private String category;
     private Integer year;
-   
+    private String image;
  /*   private int note;
 
     public int getNote() {
@@ -35,6 +35,12 @@ public class Album {
    
    
 
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
 	@ManyToOne 
     @JoinColumn(name="artist_id")
 	private Artist artist;
@@ -46,12 +52,21 @@ public class Album {
     public Album(){
     	   
     }
+    public Album(int id, String title, String category, int year, String image, Artist artist){
+    	this.id=id;
+    	this.title=title;
+    	this.category=category;
+    	this.artist=artist;
+    	this.year=year;
+    	this.image=image;
+    }
     public Album(int id, String title, String category, int year, Artist artist){
     	this.id=id;
     	this.title=title;
     	this.category=category;
     	this.artist=artist;
     	this.year=year;
+    	this.image=image;
     }
     public Integer getRating() {
 		return rating;

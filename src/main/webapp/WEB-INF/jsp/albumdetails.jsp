@@ -34,9 +34,24 @@
 }
 
 #description {
+float:left;
+	margin-left:30px;
+}
+#imgalbum {
 	height: 200px;
+	width:200px;
+	float:left;
+}
+#comments_wrapper{
+margin-top:50px;
+font-style:italic;
+}
+
+.clear{
+clear:both;
 }
 </style>
+
 </head>
 
 <body>
@@ -47,9 +62,10 @@
 	<div class="container">
 		<!-- Example row of columns -->
 		<div class="well">
-
+<img src="<%=request.getContextPath()%>/images/${chosen_album.image}" id="imgalbum">
 			<div id="description">
 				<h2>${chosen_album.title}</h2>
+               
 
 				${chosen_album.artist.name}<br /> ${chosen_album.category}<br />
 				<br /> <span id="like" style ="visibility:${(chosen_album.rating>0) ? 'visible': 'hidden'}">
@@ -80,10 +96,24 @@
 			<c:if test="${!empty session_user && hasliked == 'no'}">	<button type="button" class="btn btn-primary" id="btn_like">Like</button>
 			</c:if>
 			</div>
+			<div class="clear"></div>
+			<div id="comments_wrapper">
+			<c:forEach var="CommentsList" items="${CommentsList}">
+			<div class="commentbox"> 
+				Comment by ${CommentsList.getAuthor().getUsername()} : 	${CommentsList.getDate()}<br />
+					${CommentsList.getMessage()}
+				
+					</div>
+				
+			</c:forEach>
+			</div>
+			<br />
+			<c:if test="${!empty session_user }">
 			<form method="POST">
 				<textarea class="form-control" rows="3" name="comment_value"></textarea>
 				<button type="submit" class="btn btn-default">Submit</button>
 			</form>
+				</c:if>
 		</div>
 
 		<jsp:include page="footer.jsp" />
