@@ -25,16 +25,32 @@
       <script src="../../assets/js/respond.min.js"></script>
     <![endif]-->
 <style>
-.center_form {
-	width: 500px;
+.well .form-group {
+	width: 300px;
+	float:left;
+	margin-top:30px;
 }
 
 .well {
-	
+	clear:both;
 }
 
-#description {
-	height: 200px;
+
+#btn_validate {
+	float:left;
+    margin-top:30px;
+    
+}
+#json_return {
+	clear:both;
+    
+}
+#parse_json {
+	clear:both;
+    visibility:hidden;
+}
+#available_services {
+	margin-top:30px;
 }
 </style>
 </head>
@@ -49,15 +65,96 @@
 		<div class="well">
 
 			<div id="description">
-				<h3>Discover our API to find album using our web service</h3>
+				<h3>Discover our API to find albums using our web service</h3>
           <br />
-			The GPNtunes API is a RESTful API which uses HTTP requests and JSON responses.
+		<div>
+			The GPNtunes API is a RESTful API which uses HTTP requests and JSON responses. <br />
+			For example, finding albums by author can be done by using /rest/api/albums/byauthor?name={type the name you want} <br />
+			The response will be in JSON, parse it to retrieve the data. <br />
+			Below is an example of finding albums by author using ajax to connect to the API. <br />
+			Just type a composer name in the field, then it will return corresponding albums. (Default value is Coldplay and will return all Coldplay's albums.)
 		</div>
-
+        <div class="form-group">
+						<input type="text" placeholder="type album title"
+							class="form-control" id="searchparameter">
+					</div>
+					<button class="btn btn-primary" id="btn_validate">Validate</button>
+		<div id="json_return"></div>
+		<div id ="parse_json"><p>Then retrieving data is easy by parsing json. Below is an example of parsing using ajax again:</p>
+				<button class="btn btn-primary" id="btn_parse" >Parse the json response</button><div id="parse_response"></div></div>
+			<div id="available_services"> <i>Available services : <br />
+			find album by title : /rest/api/albums/byalbumtitle?name={name you want} <br />
+			find album by category : /rest/api/albums/bycat?name={name you want} <br />
+			find album by composer : /rest/api/albums/byauthor?name={name you want} <br />
+			find albums by song title : /rest/api/albums/bysongtitle?name={name you want}</i> <br />
+			</div>	
+		</div>
+		<div style="clear:both">
+		</div>
+		</div>
 		<jsp:include page="footer.jsp" />
 	</div>
 
-	
+	<script type="text/javascript" >
+$(document).ready(function() {
+	$(function () {
+		  $("#searchparameter").val("Coldplay");
+		});
+    $("#btn_validate").click(function(event){ 
+    	var parameter = $("#searchparameter").val();
+    	if(parameter.length>0)
+    	{var apiurl ="rest/api/albums/byauthor?name="+parameter;
+   
+    	$.ajax({
+    		  url: apiurl,
+    		  success: function( data ) {
+    			 var json_return = JSON.stringify(data);
+    			 $("#json_return").html("The following json response is returned : <br />"+json_return);
+    			 $("#parse_json").css("visibility","visible");
+    		  }
+    		});	
+    }
+    	else
+    		alert("field cannot be empty");
+
+    });
+    $("#btn_parse").click(function(event){ 
+    	var parameter = $("#searchparameter").val();
+    	if(parameter.length>0)
+    	{var apiurl ="rest/api/albums/byauthor?name="+parameter;
+   
+    	$.ajax({
+    		  url: apiurl,
+    		  success: function( data ) {
+    			
+    			
+    			  var albums = [];
+    			
+    			  data.forEach(function(item){/*albums.push(item.category);
+    			  albums.push(item.title);
+    			  albums.push(item.year);
+    			  albums.push(item.Artist);*/
+    			  albums.push(item);
+    			  });
+    			  var album ="";
+    		   var i=0;
+    			 albums.forEach(function(item, i){
+    				 i=i+1;
+    				 album= album+ "album "+i+": <br />" + "title : "+ item.title+"<br />"+"composer : "+ item.Artist+"<br />"
+    				  +"year : "+ item.year+"<br />"+"category : "+item.category+"<br /> <br />";
+    				});
+    			  $("#parse_response").html( album);
+    		  }
+    		});	
+    }
+    	else
+    		alert("field cannot be empty");
+
+    });
+
+    
+});
+</script>
 
 	<!-- /container -->
 

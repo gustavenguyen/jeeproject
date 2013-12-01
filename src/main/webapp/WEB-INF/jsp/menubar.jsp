@@ -73,7 +73,7 @@
 				success : function(msg) {
 					var result = $.trim(msg);
 					if (result == "wrong")
-						alert("Identifiants incorrects");
+						alert("Invalid login/password pair");
 					else
 						window.location.replace(redirect);
 				}

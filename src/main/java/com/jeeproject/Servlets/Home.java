@@ -90,7 +90,7 @@ public class Home extends HttpServlet {
 	int AlbumsListSize = AlbumsList.size();
 	
 	if(AlbumsListSize>0)
-	{int iItemsByPage = 2;
+	{int iItemsByPage = 1;
 	double itemsByPage = (double) iItemsByPage;
 	int page=1;
 	if(request.getParameter("page")!=null)
