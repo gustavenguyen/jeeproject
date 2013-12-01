@@ -42,15 +42,20 @@
     
 }
 #json_return {
-	clear:both;
+
+display:none;
     
 }
 #parse_json {
 	clear:both;
-    visibility:hidden;
+    display:none;
 }
 #available_services {
+clear:both;
 	margin-top:30px;
+}
+.clear{
+clear:both;
 }
 </style>
 </head>
@@ -72,20 +77,21 @@
 			For example, finding albums by author can be done by using /rest/api/albums/byauthor?name={type the name you want} <br />
 			The response will be in JSON, parse it to retrieve the data. <br />
 			Below is an example of finding albums by author using ajax to connect to the API. <br />
-			Just type a composer name in the field, then it will return corresponding albums. (Default value is Coldplay and will return all Coldplay's albums.)
+			Just type a composer name in the field, then it will return corresponding albums. (Default value Coldplay will return all Coldplay's albums.)
 		</div>
         <div class="form-group">
 						<input type="text" placeholder="type album title"
 							class="form-control" id="searchparameter">
 					</div>
 					<button class="btn btn-primary" id="btn_validate">Validate</button>
-		<div id="json_return"></div>
-		<div id ="parse_json"><p>Then retrieving data is easy by parsing json. Below is an example of parsing using ajax again:</p>
+					<div class="clear"></div>
+		<div id="json_return">The following json response is returned : <br /> <div id="json_response"  class="alert alert-info" ></div></div>
+		<div id ="parse_json"><p>Then retrieving data is easy by parsing json. Click below to parse using ajax again:</p>
 				<button class="btn btn-primary" id="btn_parse" >Parse the json response</button><div id="parse_response"></div></div>
 			<div id="available_services"> <i>Available services : <br />
 			find album by title : /rest/api/albums/byalbumtitle?name={name you want} <br />
-			find album by category : /rest/api/albums/bycat?name={name you want} <br />
-			find album by composer : /rest/api/albums/byauthor?name={name you want} <br />
+			find albums by category : /rest/api/albums/bycat?name={name you want} <br />
+			find albums by composer : /rest/api/albums/byauthor?name={name you want} <br />
 			find albums by song title : /rest/api/albums/bysongtitle?name={name you want}</i> <br />
 			</div>	
 		</div>
@@ -109,8 +115,11 @@ $(document).ready(function() {
     		  url: apiurl,
     		  success: function( data ) {
     			 var json_return = JSON.stringify(data);
-    			 $("#json_return").html("The following json response is returned : <br />"+json_return);
-    			 $("#parse_json").css("visibility","visible");
+    			 $("#json_return").css("display","block");
+    			 $("#json_response").html(json_return);
+    			
+    			 $("#parse_json").css("display","block");
+    			 $("#parse_response").css("display","none");
     		  }
     		});	
     }
@@ -126,19 +135,11 @@ $(document).ready(function() {
     	$.ajax({
     		  url: apiurl,
     		  success: function( data ) {
+    			  $("#parse_response").css("display","block");
     			
-    			
-    			  var albums = [];
-    			
-    			  data.forEach(function(item){/*albums.push(item.category);
-    			  albums.push(item.title);
-    			  albums.push(item.year);
-    			  albums.push(item.Artist);*/
-    			  albums.push(item);
-    			  });
-    			  var album ="";
-    		   var i=0;
-    			 albums.forEach(function(item, i){
+    			  var album ="<br />";
+    			   var i=0;
+    			  data.forEach(function(item,i){
     				 i=i+1;
     				 album= album+ "album "+i+": <br />" + "title : "+ item.title+"<br />"+"composer : "+ item.Artist+"<br />"
     				  +"year : "+ item.year+"<br />"+"category : "+item.category+"<br /> <br />";

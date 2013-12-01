@@ -9,12 +9,9 @@
 	margin-top: 8px;
 }
 
-.logout_block a {
-	color: white;
-}
-
-.logout_block a:first-child {
+.logout_block span:first-child {
 	margin-right: 20px;
+	color: white;
 }
 </style>
 
@@ -42,7 +39,7 @@
 			</c:if>
 			<c:if test="${!empty session_user}">
 				<div class="logout_block">
-					<a href="">My account</a><a href="<c:url value="/deconnexion"/>"><button
+					<span>logged in as ${session_user.getUsername()}</span><a href="<c:url value="/deconnexion"/>"><button
 							type="submit" class="btn">Log out</button></a>
 				</div>
 

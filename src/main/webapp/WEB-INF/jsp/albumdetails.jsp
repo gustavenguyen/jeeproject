@@ -52,19 +52,25 @@
 				<h2>${chosen_album.title}</h2>
 
 				${chosen_album.artist.name}<br /> ${chosen_album.category}<br />
-				<br /> <span id="number_like" style ="visibility:${(chosen_album.rating>0) ? 'visible': 'hidden'}">
+				<br /> <span id="like" style ="visibility:${(chosen_album.rating>0) ? 'visible': 'hidden'}">
 			
 			<c:choose>
-			 <c:when test="${chosen_album.rating==1 && hasliked == 'no'}"> 1 person likes this.
+			 <c:when test="${chosen_album.rating==0}"> <span id="numberoflikes">0</span> 
+  
+      </c:when>
+			 <c:when test="${chosen_album.rating==1 && hasliked != 'yes'}"> <span id="numberoflikes">1</span> person likes this.
   
       </c:when>
        <c:when test="${chosen_album.rating==1 && hasliked == 'yes'}">You like this.
   
       </c:when>
-      <c:when test="${!empty session_user && hasliked == 'yes'}">${chosen_album.rating-1} people and you like this.
+         <c:when test="${chosen_album.rating==2 && hasliked == 'yes'}">1 person and you like this.
   
       </c:when>
-      <c:otherwise>${chosen_album.rating} people like this.
+      <c:when test="${!empty session_user && hasliked == 'yes'}"><span id="numberoflikes">${chosen_album.rating-1}</span> people and you like this.
+  
+      </c:when>
+      <c:otherwise><span id="numberoflikes">${chosen_album.rating}</span> people like this.
       </c:otherwise>
 </c:choose>
 			
@@ -89,17 +95,25 @@
 							$("#btn_like").click(function(event) {
 
 												var VarAlbumId = "<c:out value='${chosen_album.id}'/>";
-												//   	var JsVar2 = "<c:out value='${someJstLVarFromBackend}'/>";
-
+												var VarLoggedInUser = "<c:out value='${session_user.getUsername()}'/>"
+                                                 
 												$.ajax({
 															type : "GET",
-                                                            url : "/peguno-project/rest/api/like?album="+ VarAlbumId+ "&user=gus",
+                                                            url : "/peguno-project/rest/api/like?album="+ VarAlbumId+ "&user="+VarLoggedInUser,
           													dataType : "json",
 															success : function(
 																	data) {
 																if (data.success == 1) {
-																	$("#number_like").html(data.rating + "personnes aiment ça");
-																	$("#number_like").css("visibility","visible");
+																	var numLikes = parseInt($("#numberoflikes").text().trim(),10);
+																	
+																	if(numLikes==0)
+																	$("#like").html("You like this");
+																	else if(numLikes==1)
+																		$("#like").html("1 person and you like this");
+																	else
+																		$("#like").html(numLikes +" people and you like this");
+																	
+																	$("#like").css("visibility","visible");
 																	$("#btn_like").css("visibility","hidden");
 																}
 															}

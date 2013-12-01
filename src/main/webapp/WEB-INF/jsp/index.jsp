@@ -41,6 +41,14 @@
 float:left;
 margin-top:5px;
 }
+.well {
+border:none;
+background-color:white;
+ box-shadow:none;
+}
+.albumrow:hover{
+cursor:pointer;
+}
 </style>
 </head>
 
@@ -50,6 +58,7 @@ margin-top:5px;
 	<jsp:include page="menubar.jsp" />
 	<jsp:include page="banner.jsp" />
 	<div class="container">
+	<div class="well">
 		<!-- Example row of columns -->
 		<div class="navbar navbar-default">
 
@@ -95,7 +104,7 @@ margin-top:5px;
 			<c:choose>
     <c:when test="${!empty AlbumsByPage}">
 			<c:forEach var="album" items="${AlbumsByPage}">
-				<tr
+				<tr class="albumrow"
 					onclick="window.location.href = '${pageContext.request.contextPath}/albumdetails?album=${album.getId()}';">
 					<td><c:out value="${album.getTitle()}" /></td>
 					<td><c:out value="${album.getArtist().getName()}" /></td>
@@ -113,7 +122,7 @@ margin-top:5px;
   <a href="<%=request.getContextPath()+"?"+request.getAttribute( "QueryString")%>&page=${i}">  <c:out value="${i}"/> </a>
 </c:forEach>
 	
-
+</div>
 
 		<jsp:include page="footer.jsp" />
 	</div>
