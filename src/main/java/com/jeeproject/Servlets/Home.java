@@ -3,6 +3,7 @@ package com.jeeproject.Servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -86,8 +87,59 @@ public class Home extends HttpServlet {
 		if(search_type.equals("songtitle"))
 			AlbumsList = albumdao.getAlbumsBySongTitle(search_name, category_selected);
 	}
-	 request.setAttribute( "AlbumsList", AlbumsList);
-		this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+	int AlbumsListSize = AlbumsList.size();
+	
+	if(AlbumsListSize>0)
+	{int iItemsByPage = 2;
+	double itemsByPage = (double) iItemsByPage;
+	int page=1;
+	if(request.getParameter("page")!=null)
+	{
+	page =Integer.parseInt(request.getParameter("page"));
+	String s=request.getQueryString();
+	String str[]=s.split("&");
+	String querystring = "";
+	for (int i =0; i< str.length;i++)
+	{if(!str[i].matches("page=[0-9]*"))
+		if(i==0)
+	    querystring=str[i];
+		else
+	    querystring=querystring+"&"+str[i];
+	}
+	System.out.println(querystring);
+	request.setAttribute( "QueryString", querystring);
+	}
+	else
+	{
+		String s=request.getQueryString();
+		request.setAttribute( "QueryString", s);
+	}
+	System.out.println(page+"");
+//	double dAlbumsListSize = (double) AlbumsListSize ;
+	int AlbumsListSizeModulo = AlbumsListSize%iItemsByPage;
+	double dNumberOfPages = Math.ceil(AlbumsListSize/itemsByPage);
+	int iNumberOfPages = (int)dNumberOfPages;
+	System.out.println("size"+AlbumsListSize + "reste" + AlbumsListSizeModulo+"numberofpages"+iNumberOfPages);
+	List <Album> AlbumsByPage = new ArrayList <Album>(); 
+	
+	 if(page == iNumberOfPages &&  AlbumsListSizeModulo!=0)
+	{
+		
+		for (int i=((page-1)*iItemsByPage);i<(((page-1)*iItemsByPage)+AlbumsListSizeModulo);i++) 
+			AlbumsByPage.add(AlbumsList.get(i));
+	}
+	else if(page < iNumberOfPages ||  AlbumsListSizeModulo==0)
+	{
+		
+		for (int i=((page-1)*iItemsByPage);i<(page*iItemsByPage);i++) 
+			AlbumsByPage.add(AlbumsList.get(i));
+	}
+	 System.out.println(request.getQueryString());
+	request.setAttribute( "AlbumsByPage", AlbumsByPage);
+	request.setAttribute( "numPages", iNumberOfPages);
+	request.setAttribute( "rest", AlbumsListSizeModulo );
+	}
+	this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 		
 	}
 

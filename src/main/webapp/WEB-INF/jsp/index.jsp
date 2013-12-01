@@ -92,7 +92,9 @@ margin-top:5px;
 				<th>Category</th>
 				<th>Year</th>
 			</tr>
-			<c:forEach var="album" items="${AlbumsList}">
+			<c:choose>
+    <c:when test="${!empty AlbumsByPage}">
+			<c:forEach var="album" items="${AlbumsByPage}">
 				<tr
 					onclick="window.location.href = '${pageContext.request.contextPath}/albumdetails?album=${album.getId()}';">
 					<td><c:out value="${album.getTitle()}" /></td>
@@ -101,9 +103,16 @@ margin-top:5px;
 					<td><c:out value="${album.getYear()}" /></td>
 				</tr>
 			</c:forEach>
+			</c:when>
+			 <c:otherwise>
+       <tr > <td colspan="4">No results found. </td></tr>
+    </c:otherwise>
+    </c:choose>
 		</table>
-
-		<hr>
+<c:forEach begin="1" end="${numPages}" var="i">
+  <a href="<%=request.getContextPath()+"?"+request.getAttribute( "QueryString")%>&page=${i}">  <c:out value="${i}"/> </a>
+</c:forEach>
+	
 
 
 		<jsp:include page="footer.jsp" />
