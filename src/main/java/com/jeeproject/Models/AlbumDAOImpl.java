@@ -1,7 +1,10 @@
 package com.jeeproject.Models;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -104,6 +107,12 @@ public class AlbumDAOImpl implements AlbumDAO{
 		      AlbumsResults.add(results.get(i).getAlbum());
 			    	 
 		}
+		Set <Album> SetAlbums=new HashSet<Album>(); //le set va permettre d'enlever les doublons
+		for (int i=0;i<AlbumsResults.size();i++)
+		{SetAlbums.add(AlbumsResults.get(i));
+		
+		}
+		AlbumsResults = new ArrayList<Album>(SetAlbums);
 		 em.close();	
 		return AlbumsResults;
        

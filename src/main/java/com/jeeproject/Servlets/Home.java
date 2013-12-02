@@ -59,22 +59,25 @@ public class Home extends HttpServlet {
 	      e.printStackTrace();
 	     };*/
 		 AlbumsList = albumdao.getAlbums();
-			TreeSet <String> CategoriesList=new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+			TreeSet <String> CategoriesList=new TreeSet<String>(String.CASE_INSENSITIVE_ORDER); //retrouve les différentes catégories qu'il y a dans la bdd
 			for (int i=0;i<AlbumsList.size();i++)
 			{CategoriesList.add(AlbumsList.get(i).getCategory());
 			
 			}
 			request.setAttribute( "CategoriesList", CategoriesList);
 			  	
-	if(request.getParameter("keywords_checkbox")==null && request.getParameter("category_selected")!= null && !request.getParameter("category_selected").equals("all"))
+			
+			// en fonction de la recherche de l'utilisateur, renvoie une liste d'albums spécifique
+	if((request.getParameter("keywords_checkbox")==null && request.getParameter("category_selected")!= null && !request.getParameter("category_selected").equals("all"))
+			||(request.getParameter("keywords_checkbox")!=null && request.getParameter("search_name")!=null && request.getParameter("search_name").trim().length()==0 && !request.getParameter("category_selected").equals("all")))
 		    {
-		    System.out.println("get null"+ request.getParameter("category_selected"));
+		    
 		    AlbumsList = albumdao.getAlbumsByCategory(request.getParameter("category_selected"));
-		   	System.out.println(AlbumsList.get(0));    
+		    
 		    }
 		   
 		
-	
+
 	else if(request.getParameter("keywords_checkbox")!=null && request.getParameter("search_name").trim().length()>0){
 		String search_type = request.getParameter("search_type");
 		
@@ -87,13 +90,14 @@ public class Home extends HttpServlet {
 		if(search_type.equals("songtitle"))
 			AlbumsList = albumdao.getAlbumsBySongTitle(search_name, category_selected);
 	}
-	int AlbumsListSize = AlbumsList.size();
-	if(request.getParameter("keywords_checkbox")!=null && request.getParameter("search_name").trim().length()==0)
-		AlbumsListSize=0;
 	
+	int AlbumsListSize = AlbumsList.size();
+	/*if(request.getParameter("keywords_checkbox")!=null && request.getParameter("search_name").trim().length()==0)
+		AlbumsListSize=0;
+	*/
 
 	
-	if(AlbumsListSize>0)
+	if(AlbumsListSize>0)                                     //gère l'affichage par page
 	{int iItemsByPage = 10;
 	double itemsByPage = (double) iItemsByPage;
 	int page=1;
@@ -110,7 +114,7 @@ public class Home extends HttpServlet {
 		else
 	    querystring=querystring+"&"+str[i];
 	}
-	System.out.println(querystring);
+	
 	request.setAttribute( "QueryString", querystring);
 	}
 	else
@@ -138,7 +142,7 @@ public class Home extends HttpServlet {
 		for (int i=((page-1)*iItemsByPage);i<(page*iItemsByPage);i++) 
 			AlbumsByPage.add(AlbumsList.get(i));
 	}
-	 System.out.println(request.getQueryString());
+	
 	request.setAttribute( "AlbumsByPage", AlbumsByPage);
 	request.setAttribute( "numPages", iNumberOfPages);
 	request.setAttribute( "rest", AlbumsListSizeModulo );
@@ -153,7 +157,7 @@ public class Home extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	
-	
+	//gère le log in
 		String username = request.getParameter("username");
 		String passwd = request.getParameter("psswd");
 		
@@ -169,7 +173,7 @@ public class Home extends HttpServlet {
 				System.out.println("vous etes connecté");
 				HttpSession session = request.getSession();  
 				session.setAttribute( "session_user", userConnected);
-                  User userco = (User) session.getAttribute("session_user");
+                User userco = (User) session.getAttribute("session_user");
 		        System.out.println(userco.getUsername());
 				
 				

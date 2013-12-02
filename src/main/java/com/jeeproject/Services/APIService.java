@@ -31,10 +31,7 @@ import org.zdevra.guice.mvc.annotations.Model;
 //import org.zdevra.guice.mvc.annotations.Path;
 import org.zdevra.guice.mvc.annotations.View;
              
-/**
- * User: marco Date: 14/10/13 Time: 12:36
- */
-@Controller
+
 @Path("/api")
 public class APIService {
 
@@ -55,36 +52,8 @@ public class APIService {
 		System.out.println("service started...");
 		int albumRating =0;
 		
-	/*	try {
-			Query query = em.createQuery("SELECT l FROM Like l WHERE l.album.id= :albumid AND l.user.id=(Select u.id from User u where u.username= :username)");
-			query.setParameter("albumid", Integer.parseInt(album_id));
-			query.setParameter("username", username);
-
-			CheckUserAlreadyLiked = (Like) query.getSingleResult();
-
-		} catch (NoResultException e) {
-			Album albumToUpdate =em.find(Album.class,Integer.parseInt(album_id));
-			em.getTransaction().begin();
-	       
-	       
-			albumRating = albumToUpdate.getRating();
-			albumRating=albumRating+1;
-			albumToUpdate.setRating(albumRating);
-			  em.getTransaction().commit();	
-                     
-		         em.close(); 
-				System.out.println("cest bon"+albumToUpdate.getRating());
-			albumRating = albumdao.updateAlbumRating(album_id);   
-			likedao.addLike(username,album_id);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
-		
 		Map<String, Object> results = new HashMap<String, Object>();
 		if (likedao.HasUserLiked(album_id, username) != null) {
-			albumRating = albumdao.updateAlbumRating(album_id);   
-			likedao.addLike(username,album_id);
 			System.out.println("user has already liked this album...");
 			results.put("success", 0);
 
@@ -144,7 +113,7 @@ public class APIService {
 			map.put("title", AlbumsList.get(i).getTitle());
 			map.put("category", AlbumsList.get(i).getCategory());
 	    	map.put("year", Integer.toString(AlbumsList.get(i).getYear()));
-	    	map.put("Artist", AlbumsList.get(i).getArtist().getName());
+	    	map.put("artist", AlbumsList.get(i).getArtist().getName());
 	    	AlbumMapList.add(map);
 		
 		}

@@ -70,7 +70,7 @@ border-top: none;
 				<h2>${chosen_album.title}</h2>
                
 
-				${chosen_album.artist.name}<br /> ${chosen_album.category}<br />
+				<span style="font-size:18px">${chosen_album.artist.name}</span><br />
 				<br /> <span id="like" style ="visibility:${(chosen_album.rating>0) ? 'visible': 'hidden'}">
 			
 			<c:choose>

@@ -134,7 +134,7 @@ $(document).ready(function() {
     			   var i=0;
     			  data.forEach(function(item,i){
     				 i=i+1;
-    				 album= album+ "album "+i+": <br />" + "title : "+ item.title+"<br />"+"composer : "+ item.Artist+"<br />"
+    				 album= album+ "album "+i+": <br />" + "title : "+ item.title+"<br />"+"composer : "+ item.artist+"<br />"
     				  +"year : "+ item.year+"<br />"+"category : "+item.category+"<br /> <br />";
     				});
     			  $("#parse_response").html( album);

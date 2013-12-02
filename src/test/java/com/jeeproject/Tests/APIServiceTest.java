@@ -3,7 +3,7 @@ package com.jeeproject.Tests;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
+import static org.mockito.Mockito.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import com.jeeproject.Entities.Album;
 import com.jeeproject.Entities.Artist;
+import com.jeeproject.Entities.Like;
 import com.jeeproject.Models.AlbumDAO;
 import com.jeeproject.Models.LikeDAO;
 import com.jeeproject.Services.APIService;
@@ -43,7 +44,7 @@ public class APIServiceTest {
 		map.put("category", "Pop");
 		map.put("title", "Mylo Xyloto");
 		map.put("year", "2011");
-		map.put("Artist", "Coldplay");
+		map.put("artist", "Coldplay");
 		expectedAlbumsList.add(map);
 
 		assertThat(service.getAlbums("bycat", "Pop")).isEqualTo(expectedAlbumsList);
@@ -51,4 +52,26 @@ public class APIServiceTest {
 		assertThat(service.getAlbums("bysongtitle","Every tear drop is a waterfall")).isEqualTo(expectedAlbumsList);
 		assertThat(service.getAlbums("byalbumtitle", "Mylo Xyloto")).isEqualTo(expectedAlbumsList);
 	}
-}
+	@Test
+	public void testLikeVerification() {
+		AlbumDAO albumdao = mock(AlbumDAO.class);
+		LikeDAO likedao = mock(LikeDAO.class);
+		APIService service = new APIService(albumdao, likedao);
+		Like Like = new Like();
+	
+	when(likedao.HasUserLiked("12", "I_have_liked")).thenReturn(Like);
+	when(likedao.HasUserLiked("12", "I_will_like")).thenReturn(null);
+	when(albumdao.updateAlbumRating("12")).thenReturn(8);   
+	
+	doNothing().when(likedao).addLike("me","12");
+	
+	Map<String, Object> results = new HashMap<String, Object>();
+	Map<String, Object> results2 = new HashMap<String, Object>();
+	
+	results.put("success", 1);
+	results.put("rating", 8);
+	assertThat(service.getIfUserAlreadyLiked("12","I_will_like")).isEqualTo(results);
+	results2.put("success", 0);
+	assertThat(service.getIfUserAlreadyLiked("12","I_have_liked")).isEqualTo(results2);
+	}
+	}
