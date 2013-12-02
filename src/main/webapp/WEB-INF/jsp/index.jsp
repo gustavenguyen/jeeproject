@@ -8,20 +8,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="shortcut icon" href="../../assets/ico/favicon.png">
+
 
 <title>Music Library</title>
 
 <!-- Bootstrap core CSS -->
 <link href="CSS/bootstrap.css" rel="stylesheet">
 
-
-
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-      <script src="../../assets/js/html5shiv.js"></script>
-      <script src="../../assets/js/respond.min.js"></script>
-    <![endif]-->
 <style>
 .form-inline {
 	padding-top: 7px;
@@ -48,6 +41,25 @@ background-color:white;
 }
 .albumrow:hover{
 cursor:pointer;
+}
+tr:hover{
+background-color:#d9edf7;
+
+}
+tr:hover td{
+
+color:#3276b1;
+}
+#table_titles:hover{
+background-color:white;
+
+}
+#table_titles th{
+border-top:none;
+
+}
+.table{
+margin-top:-10px;
 }
 </style>
 </head>
@@ -76,7 +88,7 @@ cursor:pointer;
 				</select>&nbsp;&nbsp;&nbsp;
 				<div class="form-group">
 
-					<input type="text" name="search_name" class="form-control" type="text" id="input_research" disabled="disabled">
+					<input type="text" name="search_name" class="form-control" type="text" id="input_research" style="padding:0px 12px;" >
 				</div>
 				</div> <div id="sortby_block">
 				&nbsp; &nbsp; &nbsp;by category &nbsp;&nbsp;&nbsp; <select
@@ -93,9 +105,9 @@ cursor:pointer;
 
 		</div>
 
-		<table class="table table-hover">
+		<table class="table">
 
-			<tr>
+			<tr id="table_titles">
 				<th>Title</th>
 				<th>Artist</th>
 				<th>Category</th>
@@ -147,7 +159,7 @@ $(document).ready(function(){
 });
 
 </script>
-	<!-- /container -->
+	
 
 
 

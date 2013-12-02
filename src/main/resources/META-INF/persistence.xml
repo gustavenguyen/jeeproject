@@ -3,14 +3,14 @@
  
 <persistence-unit name="JPAmanager" transaction-type="RESOURCE_LOCAL">
 <provider>org.hibernate.ejb.HibernatePersistence</provider>
-<non-jta-data-source>java:comp/env/jdbc/ii3511project</non-jta-data-source>
+<non-jta-data-source>java:comp/env/jdbc/gpnprojectdb</non-jta-data-source>
  
 <!-- Classes -->
 <class>com.jeeproject.Entities.User</class>
  
 <properties>
  
-<property name="hibernate.connection.datasource" value="java:comp/env/jdbc/ii3511project"/>
+<property name="hibernate.connection.datasource" value="java:comp/env/jdbc/gpnprojectdb"/>
 <property name="hibernate.id.new_generator_mappings" value ="true"/>
  
 <property name="hibernate.archive.autodetection" value="class"/>

@@ -9,37 +9,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="shortcut icon" href="../../assets/ico/favicon.png">
+
 
 <title>Music Library</title>
 
 <!-- Bootstrap core CSS -->
 <link href="CSS/bootstrap.css" rel="stylesheet">
 
-<!-- Custom styles for this template -->
-<link href="jumbotron.css" rel="stylesheet">
-
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-      <script src="../../assets/js/html5shiv.js"></script>
-      <script src="../../assets/js/respond.min.js"></script>
-    <![endif]-->
 <style>
 .center_form {
 	width: 500px;
 }
 
 .well {
-	width: 550px;
+	width: 650px;
+	
 }
 
 #description {
+width:300px;
 float:left;
 	margin-left:30px;
 }
 #imgalbum {
 	height: 200px;
 	width:200px;
+	border:1px solid #D5D5D5;
 	float:left;
 }
 #comments_wrapper{
@@ -49,6 +44,14 @@ font-style:italic;
 
 .clear{
 clear:both;
+}
+.table{
+border-top: none;
+width:300px;
+margin-left:260px;
+}
+.table tr th{
+border-top: none;
 }
 </style>
 
@@ -60,7 +63,7 @@ clear:both;
 	<jsp:include page="menubar.jsp" />
 	<jsp:include page="banner.jsp" />
 	<div class="container">
-		<!-- Example row of columns -->
+		
 		<div class="well">
 <img src="<%=request.getContextPath()%>/images/${chosen_album.image}" id="imgalbum">
 			<div id="description">
@@ -99,9 +102,9 @@ clear:both;
 			<div class="clear"></div>
 			<table class="table">
 
-			<tr>
-				<th>Track</th>
-				<th>Title</th>
+			<tr >
+				<th style="border-top: none">Track</th>
+				<th style="border-top: none">Title</th>
 			</tr>
 	
 			<c:forEach var="song" items="${SongList}">
@@ -168,27 +171,8 @@ clear:both;
 						});
 	</script>
 
-	<!-- /container -->
 
 
-	<!-- Bootstrap core JavaScript
-    ================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="js/jquery.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/bootstrap-assets/jquery.js"></script>
-	<script src="js/bootstrap-assets/transition.js"></script>
-	<script src="js/bootstrap-assets/alert.js"></script>
-	<script src="js/bootstrap-assets/modal.js"></script>
-	<script src="js/bootstrap-assets/dropdown.js"></script>
-	<script src="js/bootstrap-assets/scrollspy.js"></script>
-	<script src="js/bootstrap-assets/tab.js"></script>
-	<script src="js/bootstrap-assets/tooltip.js"></script>
-	<script src="js/bootstrap-assets/popover.js"></script>
-	<script src="js/bootstrap-assets/button.js"></script>
-	<script src="js/bootstrap-assets/collapse.js"></script>
-	<script src="js/bootstrap-assets/carousel.js"></script>
-	<script src="js/bootstrap-assets/typeahead.js"></script>
 
 </body>
 </html>
