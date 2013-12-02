@@ -97,6 +97,21 @@ clear:both;
 			</c:if>
 			</div>
 			<div class="clear"></div>
+			<table class="table">
+
+			<tr>
+				<th>Track</th>
+				<th>Title</th>
+			</tr>
+	
+			<c:forEach var="song" items="${SongList}">
+				<tr>
+					<td><c:out value="${song.getTrack()}" /></td>
+					<td><c:out value="${song.getTitle()}" /> </td>
+				</tr>
+			</c:forEach>
+		
+		</table>
 			<div id="comments_wrapper">
 			<c:forEach var="CommentsList" items="${CommentsList}">
 			<div class="commentbox"> 

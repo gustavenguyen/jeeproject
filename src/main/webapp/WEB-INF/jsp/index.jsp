@@ -79,7 +79,7 @@ cursor:pointer;
 					<input type="text" name="search_name" class="form-control" type="text" id="input_research" disabled="disabled">
 				</div>
 				</div> <div id="sortby_block">
-				&nbsp; &nbsp; &nbsp;Sort by &nbsp;&nbsp;&nbsp; <select
+				&nbsp; &nbsp; &nbsp;by category &nbsp;&nbsp;&nbsp; <select
 					name="category_selected">
 					<option value="all">All</option>
 					<c:forEach var="category" items="${CategoriesList}">

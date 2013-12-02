@@ -3,6 +3,8 @@ package com.jeeproject.Servlets;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.TreeSet;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import com.jeeproject.Entities.Album;
 import com.jeeproject.Entities.Comment;
+import com.jeeproject.Entities.Song;
 import com.jeeproject.Entities.User;
 import com.jeeproject.Models.AlbumDAO;
 import com.jeeproject.Models.AlbumDAOImpl;
@@ -50,7 +53,20 @@ public class AlbumDetails extends HttpServlet {
 		Album chosen_album=albumdao.find(album_id);
 		System.out.println("chosen"+chosen_album.getTitle());
 		// TODO Auto-generated method stub
-		
+		 List <Song> SongList = chosen_album.getSongList();
+		 Collections.sort(SongList, new Comparator<Song>() {
+			    @Override
+			    public int compare(Song s1, Song s2) {
+			        if (s1.getTrack() > s2.getTrack())
+			            return 1;
+			        if (s1.getTrack() < s2.getTrack())
+			            return -1;
+			        return 0;
+			    }
+			});
+		 for (int i=0;i< SongList.size();i++)
+			 System.out.println(SongList.get(i).getTitle());
+		 request.setAttribute( "SongList", SongList);
 		
 		 request.setAttribute( "chosen_album", chosen_album);
 		
@@ -77,7 +93,8 @@ public class AlbumDetails extends HttpServlet {
 			}
 			
 		*/	   
-			 request.setAttribute( "CommentsList", CommentsList);
+		
+		 request.setAttribute( "CommentsList", CommentsList);
 		 
 		 
 		 this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
@@ -99,8 +116,7 @@ public class AlbumDetails extends HttpServlet {
 	    if (request.getParameter("comment_value").trim().length() > 0 )
 		{System.out.println("not null");
 	    commentText = request.getParameter("comment_value");
-	    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-	    String currentDate = sdf.format(new Date());
+	  
 	    Comment newComment = new Comment(userconnected,commentText, new Date(), chosen_album);
 	    CommentDAO commentDao = new CommentDAOImpl();
 	    commentDao.addComment(newComment);

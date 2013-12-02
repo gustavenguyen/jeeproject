@@ -3,7 +3,9 @@ package com.jeeproject.Entities;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -45,8 +47,9 @@ public class Album {
     @JoinColumn(name="artist_id")
 	private Artist artist;
 	 private Integer rating;
-	 
-    @OneToMany(mappedBy="album")
+
+
+    @OneToMany(mappedBy="album",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     private List <Song> SongList;
     
     public Album(){
@@ -80,7 +83,7 @@ public class Album {
 	}
 
 	public void setSongList(List<Song> songList) {
-		SongList = songList;
+		this.SongList = songList;
 	}
 
 	

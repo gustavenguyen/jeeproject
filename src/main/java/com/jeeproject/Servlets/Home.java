@@ -75,7 +75,7 @@ public class Home extends HttpServlet {
 		   
 		
 	
-	else if(request.getParameter("keywords_checkbox")!=null){
+	else if(request.getParameter("keywords_checkbox")!=null && request.getParameter("search_name").trim().length()>0){
 		String search_type = request.getParameter("search_type");
 		
 		String search_name = request.getParameter("search_name");
@@ -88,9 +88,13 @@ public class Home extends HttpServlet {
 			AlbumsList = albumdao.getAlbumsBySongTitle(search_name, category_selected);
 	}
 	int AlbumsListSize = AlbumsList.size();
+	if(request.getParameter("keywords_checkbox")!=null && request.getParameter("search_name").trim().length()==0)
+		AlbumsListSize=0;
+	
+
 	
 	if(AlbumsListSize>0)
-	{int iItemsByPage = 1;
+	{int iItemsByPage = 10;
 	double itemsByPage = (double) iItemsByPage;
 	int page=1;
 	if(request.getParameter("page")!=null)

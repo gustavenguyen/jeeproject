@@ -74,7 +74,7 @@ clear:both;
           <br />
 		<div>
 			The GPNtunes API is a RESTful API which uses HTTP requests and JSON responses. <br />
-			For example, finding albums by author can be done by using /rest/api/albums/byauthor?name={type the name you want} <br />
+			For example, finding albums by author can be done by using rest/api/albums/byauthor?name={type the name you want} <br />
 			The response will be in JSON, parse it to retrieve the data. <br />
 			Below is an example of finding albums by author using ajax to connect to the API. <br />
 			Just type a composer name in the field, then it will return corresponding albums. (Default value Coldplay will return all Coldplay's albums.)
@@ -89,10 +89,10 @@ clear:both;
 		<div id ="parse_json"><p>Then retrieving data is easy by parsing json. Click below to parse using ajax again:</p>
 				<button class="btn btn-primary" id="btn_parse" >Parse the json response</button><div id="parse_response"></div></div>
 			<div id="available_services"> <i>Available services : <br />
-			find album by title : /rest/api/albums/byalbumtitle?name={name you want} <br />
-			find albums by category : /rest/api/albums/bycat?name={name you want} <br />
-			find albums by composer : /rest/api/albums/byauthor?name={name you want} <br />
-			find albums by song title : /rest/api/albums/bysongtitle?name={name you want}</i> <br />
+			find album by title : rest/api/albums/byalbumtitle?name={name you want} <br />
+			find albums by category : rest/api/albums/bycat?name={name you want} <br />
+			find albums by composer : rest/api/albums/byauthor?name={name you want} <br />
+			find albums by song title : rest/api/albums/bysongtitle?name={name you want}</i> <br />
 			</div>	
 		</div>
 		<div style="clear:both">
