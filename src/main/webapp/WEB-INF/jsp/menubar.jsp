@@ -19,7 +19,7 @@
 	<div class="container">
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li><a href="<%=request.getContextPath()%>">Home</a></li>
+				<li><a href="<%=request.getContextPath()%>" id="home_link">Home</a></li>
 				<li><a href="<%=request.getContextPath()%>/discoverapi">Use our API </a></li>
 				<li><a href="<%=request.getContextPath()%>/about">About</a></li>
 
@@ -51,7 +51,23 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		$("#home_link").click(function(e) {                         // interdit les multiples clicks sur le lien home
+		$("#home_link").click(function(e) {
+		    e.preventDefault();
 
+		    if (!$(this).data('isClicked')) {
+		        var link = $(this);
+
+		        
+		        link.data('isClicked', true);
+		        setTimeout(function() {
+		            link.removeData('isClicked')
+		        }, 3000);
+		    } else {
+		       
+		    }
+		});
+		});
 		$("#btn_login").click(function(event) {
 			var redirect = "<c:out value='${request.getContextPath()}'/>";
 			var username = $("#username").val();
