@@ -6,8 +6,12 @@
 <non-jta-data-source>java:comp/env/jdbc/gpnprojectdb</non-jta-data-source>
  
 <!-- Classes -->
-<class>com.jeeproject.Entities.User</class>
- 
+<class>com.jeeproject.Entities.Album</class>
+<class>com.jeeproject.Entities.Artist</class>
+<class>com.jeeproject.Entities.Comment</class>
+<class>com.jeeproject.Entities.Like</class>
+<class>com.jeeproject.Entities.Song</class>
+<class>com.jeeproject.Entities.User</class>  
 <properties>
  
 <property name="hibernate.connection.datasource" value="java:comp/env/jdbc/gpnprojectdb"/>

@@ -14,13 +14,12 @@ import com.jeeproject.Models.AlbumDAO;
 import com.jeeproject.Models.AlbumDAOImpl;
 import com.jeeproject.Models.LikeDAO;
 import com.jeeproject.Models.LikeDAOImpl;
-import com.jeeproject.Modules.ProjectModule;
 import com.jeeproject.Services.APIService;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
 
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
-import org.zdevra.guice.mvc.MvcModule;
+
 
 public class GuiceConfig extends GuiceServletContextListener {
     @Override

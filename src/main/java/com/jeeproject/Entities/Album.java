@@ -25,24 +25,7 @@ public class Album {
     private String category;
     private Integer year;
     private String image;
- /*   private int note;
-
-    public int getNote() {
-		return note;
-	}
-
-	public void setNote(int note) {
-		this.note = note;
-	}*/
    
-   
-
-	public String getImage() {
-		return image;
-	}
-	public void setImage(String image) {
-		this.image = image;
-	}
 	@ManyToOne 
     @JoinColumn(name="artist_id")
 	private Artist artist;
@@ -69,8 +52,9 @@ public class Album {
     	this.category=category;
     	this.artist=artist;
     	this.year=year;
-    	this.image=image;
+    	
     }
+    
     public Integer getRating() {
 		return rating;
 	}
@@ -123,6 +107,12 @@ public class Album {
     public void setYear(Integer year) {
         this.year = year;
     }
+    public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
     @Override
     public boolean equals(Object obj)
     {

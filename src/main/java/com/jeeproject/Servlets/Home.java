@@ -4,13 +4,10 @@ package com.jeeproject.Servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
 
-import javax.persistence.EntityManager;
+
 import javax.servlet.ServletException;
 
 import javax.servlet.http.HttpServlet;
@@ -19,11 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.jeeproject.Entities.Album;
-import com.jeeproject.Entities.Song;
 import com.jeeproject.Entities.User;
 import com.jeeproject.Models.AlbumDAO;
 import com.jeeproject.Models.AlbumDAOImpl;
-import com.jeeproject.Models.EMProvider;
 import com.jeeproject.Models.UserDAO;
 import com.jeeproject.Models.UserDAOImpl;
 

@@ -6,9 +6,6 @@ import java.util.List;
 
 import java.util.Map;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -18,19 +15,9 @@ import javax.ws.rs.core.MediaType;
 
 import com.google.inject.Inject;
 import com.jeeproject.Entities.Album;
-import com.jeeproject.Entities.Like;
-import com.jeeproject.Entities.User;
 import com.jeeproject.Models.AlbumDAO;
-import com.jeeproject.Models.AlbumDAOImpl;
-import com.jeeproject.Models.EMProvider;
 import com.jeeproject.Models.LikeDAO;
 
-
-import org.zdevra.guice.mvc.annotations.Controller;
-import org.zdevra.guice.mvc.annotations.Model;
-//import org.zdevra.guice.mvc.annotations.Path;
-import org.zdevra.guice.mvc.annotations.View;
-             
 
 @Path("/api")
 public class APIService {
