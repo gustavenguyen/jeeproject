@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<script src="js/bootstrap-assets/jquery.js"></script>
+<script src="js/jquery.js"></script>
 <style> /*style pour la partie deconnexion */
 .logout_block {
 	float: right;
