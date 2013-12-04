@@ -45,67 +45,59 @@ public class AlbumDAOImpl implements AlbumDAO{
 	    em.close();
 	    return results;
 	}
-	public List<Album> getAlbumsByAuthor(String author_name, String category) {
+	public List<Album> getAlbumsByAuthor(String author_name) {
 		em = new EMProvider().getEM(); 
 		System.out.println(author_name);
 	    String selectquery = "from Album a where a.artist.name like :authorname ";
-		if(!category.equals("all"))
-			selectquery=selectquery+"and a.category= :category ";
+		
 	    Query query = em.createQuery(selectquery);
 		
 	    query.setParameter("authorname", "%"+author_name+"%" );
-	    if(!category.equals("all"))
-		{
-	    query.setParameter("category", category );
-		}
+	   
 		@SuppressWarnings("unchecked")
 		List<Album> results = query.getResultList();
 		 em.close();	
 		return results;
        
 	}
-	public List<Album> getAlbumsByAlbumTitle(String album_title, String category) {
+	public List<Album> getAlbumsByAlbumTitle(String album_title) {
 		em = new EMProvider().getEM(); 
 		
 	    String selectquery = "from Album a where a.title like :title ";
-		if(!category.equals("all"))
-			selectquery=selectquery+"and a.category= :category ";
+		
 	    Query query = em.createQuery(selectquery);
 		
 	    query.setParameter("title", "%"+album_title+"%" );
-	    if(!category.equals("all"))
-		{
-	    query.setParameter("category", category );
-		}
+	    
 		@SuppressWarnings("unchecked")
 		List<Album> results = query.getResultList();
 		 em.close();	
 		return results;
        
 	}
-	public List<Album> getAlbumsBySongTitle(String song_title, String category) {
+	public List<Album> getAlbumsBySongTitle(String song_title, String artist_name) {
 		em = new EMProvider().getEM(); 
 		
 	    String selectquery = "from Song s where s.title like :songtitle ";
 		
-	    Query query = em.createQuery(selectquery);
-		
-	    query.setParameter("songtitle", "%"+song_title+"%" );
 	   
+		System.out.println(artist_name);
+	    if(artist_name!=null){
+	    	selectquery=selectquery+"and s.composer.name= :composername ";
+	  
+	    }
+	    Query query = em.createQuery(selectquery);
+	    query.setParameter("songtitle", "%"+song_title+"%" );
+	    if(artist_name!=null){
+	    query.setParameter("composername", artist_name );
+	    }   
 		@SuppressWarnings("unchecked")
 		List<Song> results = query.getResultList();
 		System.out.println("size"+results.size());
 		List <Album> AlbumsResults = new ArrayList <Album>();
+		for (int i=0;i<results.size();i++)
+		{AlbumsResults.add(results.get(i).getAlbum());
 		
-		for (int i=0; i<results.size();i++ )
-		{
-			if(!category.equals("all"))
-			{   if(results.get(i).getAlbum().getCategory().equals(category))
-			    	 AlbumsResults.add(results.get(i).getAlbum());
-			}    
-			else
-		      AlbumsResults.add(results.get(i).getAlbum());
-			    	 
 		}
 		Set <Album> SetAlbums=new HashSet<Album>(); //le set va permettre d'enlever les doublons
 		for (int i=0;i<AlbumsResults.size();i++)

@@ -15,8 +15,12 @@ import javax.ws.rs.core.MediaType;
 
 import com.google.inject.Inject;
 import com.jeeproject.Entities.Album;
+import com.jeeproject.Entities.Artist;
+import com.jeeproject.Entities.Song;
 import com.jeeproject.Models.AlbumDAO;
+import com.jeeproject.Models.ArtistDAO;
 import com.jeeproject.Models.LikeDAO;
+import com.jeeproject.Models.SongDAO;
 
 
 @Path("/api")
@@ -25,10 +29,14 @@ public class APIService {
 	
 	 private AlbumDAO albumdao;
 	 private LikeDAO likedao;
+	 private ArtistDAO artistdao;
+	 private SongDAO songdao;
 	@Inject 
-	public APIService(AlbumDAO albumDAO, LikeDAO likeDAO) { 
+	public APIService(AlbumDAO albumDAO, LikeDAO likeDAO, ArtistDAO artistDAO, SongDAO songDAO) { 
 		this.albumdao = albumDAO;
 		this.likedao=likeDAO;
+		this.artistdao=artistDAO;
+		this.songdao=songDAO;
 	 }
 	@GET
 	@Path("/like")
@@ -71,23 +79,61 @@ public class APIService {
 	}
 	else if(param.equals("byauthor"))
 	{
-        List <Album> AlbumsByAuth = albumdao.getAlbumsByAuthor(name,"all"); 
+        List <Album> AlbumsByAuth = albumdao.getAlbumsByAuthor(name); 
 		AlbumsMapList= ConvertToMapList(AlbumsByAuth);
 	}
 	else if(param.equals("byalbumtitle"))
 	{
-        List <Album> AlbumsByAuth = albumdao.getAlbumsByAlbumTitle(name,"all"); 
+        List <Album> AlbumsByAuth = albumdao.getAlbumsByAlbumTitle(name); 
 		AlbumsMapList= ConvertToMapList(AlbumsByAuth);
 	}
 	else if(param.equals("bysongtitle"))
 	{
-        List <Album> AlbumsByAuth = albumdao.getAlbumsBySongTitle(name,"all"); 
+        List <Album> AlbumsByAuth = albumdao.getAlbumsBySongTitle(name,null); 
 		AlbumsMapList= ConvertToMapList(AlbumsByAuth);
 	}
 	return AlbumsMapList;
 	
-}
+}   
+	@GET
+	@Path("/artists/byname")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List <Map<String, String>> getComposerByName(
+			@QueryParam("name") String name) {
+		System.out.println("service started...");
+		 List <Map<String, String>> ArtistMapList= new ArrayList <Map<String, String>> ();
 	
+		List <Artist> Artists = artistdao.getArtistByName(name); 
+		for(int i=0; i<Artists.size();i++)
+		{
+			Map <String, String> map = new HashMap <String,String>();
+		
+			map.put("name", Artists.get(i).getName());
+			ArtistMapList.add(map);
+		
+		}
+		return ArtistMapList;
+	}
+	@GET
+	@Path("/songs/bytitle")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List <Map<String, String>> getSongListByTitle(
+			@QueryParam("name") String name) {
+		System.out.println("service started...");
+		 List <Map<String, String>> SongMapList= new ArrayList <Map<String, String>> ();
+	
+		List <Song> Songs = songdao.getSongByTitle(name); 
+		for(int i=0; i<Songs.size();i++)
+		{
+			Map <String, String> map = new HashMap <String,String>();
+		
+			map.put("title", Songs.get(i).getTitle());
+			map.put("artist", Songs.get(i).getComposer().getName());
+			SongMapList.add(map);
+		
+		}
+		return SongMapList;
+	}
 	public List <Map<String, String>> ConvertToMapList(List <Album> AlbumsList){
 		
     List <Map<String, String>> AlbumMapList= new ArrayList <Map<String, String>> ();

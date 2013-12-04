@@ -15,7 +15,9 @@ import com.jeeproject.Entities.Album;
 import com.jeeproject.Entities.Artist;
 import com.jeeproject.Entities.Like;
 import com.jeeproject.Models.AlbumDAO;
+import com.jeeproject.Models.ArtistDAO;
 import com.jeeproject.Models.LikeDAO;
+import com.jeeproject.Models.SongDAO;
 import com.jeeproject.Services.APIService;
 
 public class APIServiceTest {
@@ -26,16 +28,18 @@ public class APIServiceTest {
 		AlbumDAO dao = mock(AlbumDAO.class);
 		LikeDAO likedao = mock(LikeDAO.class);
 		Artist artist = mock(Artist.class);
+		ArtistDAO artistdao = mock(ArtistDAO.class);
+		SongDAO songdao = mock(SongDAO.class);
 		
-		APIService service = new APIService(dao, likedao);
+		APIService service = new APIService(dao, likedao,artistdao,songdao);
 
 		List<Album> Albums = new ArrayList<Album>();
 		Albums.add(new Album(1, "Mylo Xyloto", "Pop", 2011, artist)); //des que la dao va rechercher un album on retourne celui-ci
 
 		when(dao.getAlbumsByCategory("Pop")).thenReturn(Albums);
-		when(dao.getAlbumsByAuthor("Coldplay", "all")).thenReturn(Albums);
-		when(dao.getAlbumsBySongTitle("Every tear drop is a waterfall", "all")).thenReturn(Albums);
-		when(dao.getAlbumsByAlbumTitle("Mylo Xyloto", "all")).thenReturn(Albums);
+		when(dao.getAlbumsByAuthor("Coldplay")).thenReturn(Albums);
+		when(dao.getAlbumsBySongTitle("Every tear drop is a waterfall",null)).thenReturn(Albums);
+		when(dao.getAlbumsByAlbumTitle("Mylo Xyloto")).thenReturn(Albums);
 		when(artist.getName()).thenReturn("Coldplay");
 
 		List<Map<String, String>> expectedAlbumsList = new ArrayList<Map<String, String>>(); // on définit le résultat attendu
@@ -56,7 +60,10 @@ public class APIServiceTest {
 	public void testLikeVerification() {
 		AlbumDAO albumdao = mock(AlbumDAO.class);
 		LikeDAO likedao = mock(LikeDAO.class);
-		APIService service = new APIService(albumdao, likedao);
+		ArtistDAO artistdao = mock(ArtistDAO.class);
+		SongDAO songdao = mock(SongDAO.class);
+		
+		APIService service = new APIService(albumdao, likedao, artistdao, songdao);
 		Like Like = new Like();
 	
 	when(likedao.HasUserLiked("12", "I_have_liked")).thenReturn(Like);

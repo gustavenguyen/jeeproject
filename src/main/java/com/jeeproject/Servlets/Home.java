@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.jeeproject.Entities.Album;
+import com.jeeproject.Entities.Artist;
 import com.jeeproject.Entities.User;
 import com.jeeproject.Models.AlbumDAO;
 import com.jeeproject.Models.AlbumDAOImpl;
@@ -53,7 +54,8 @@ public class Home extends HttpServlet {
 	         } catch ( Exception e ) {
 	      e.printStackTrace();
 	     };*/
-		 AlbumsList = albumdao.getAlbums();
+		
+		    AlbumsList = albumdao.getAlbums();
 			TreeSet <String> CategoriesList=new TreeSet<String>(String.CASE_INSENSITIVE_ORDER); //retrouve les différentes catégories qu'il y a dans la bdd
 			for (int i=0;i<AlbumsList.size();i++)
 			{CategoriesList.add(AlbumsList.get(i).getCategory());
@@ -63,8 +65,8 @@ public class Home extends HttpServlet {
 			  	
 			
 			// en fonction de la recherche de l'utilisateur, renvoie une liste d'albums spécifique
-	if((request.getParameter("keywords_checkbox")==null && request.getParameter("category_selected")!= null && !request.getParameter("category_selected").equals("all"))
-			||(request.getParameter("keywords_checkbox")!=null && request.getParameter("search_name")!=null && request.getParameter("search_name").trim().length()==0 && !request.getParameter("category_selected").equals("all")))
+	        if(request.getParameter("search_type")!=null && request.getParameter("search_type").equals("category"))
+	
 		    {
 		    
 		    AlbumsList = albumdao.getAlbumsByCategory(request.getParameter("category_selected"));
@@ -73,18 +75,23 @@ public class Home extends HttpServlet {
 		   
 		
 
-	else if(request.getParameter("keywords_checkbox")!=null && request.getParameter("search_name").trim().length()>0){
+	else if(request.getParameter("search_type")!= null && request.getParameter("search_name")!=null && request.getParameter("search_name").trim().length()>0){
 		String search_type = request.getParameter("search_type");
 		
 		String search_name = request.getParameter("search_name");
-		String category_selected = request.getParameter("category_selected");
+		
 		if(search_type.equals("author"))
-			AlbumsList = albumdao.getAlbumsByAuthor(search_name, category_selected);
+			AlbumsList = albumdao.getAlbumsByAuthor(search_name);
 		if(search_type.equals("albumtitle"))
-			AlbumsList = albumdao.getAlbumsByAlbumTitle(search_name, category_selected);
+			AlbumsList = albumdao.getAlbumsByAlbumTitle(search_name);
 		if(search_type.equals("songtitle"))
-			AlbumsList = albumdao.getAlbumsBySongTitle(search_name, category_selected);
-	}
+		{
+			if(request.getParameter("artist")!=null && request.getParameter("artist").trim().length()>0) 
+			AlbumsList = albumdao.getAlbumsBySongTitle(search_name,request.getParameter("artist").trim());
+			else
+			AlbumsList = albumdao.getAlbumsBySongTitle(search_name,null);
+		}
+		}
 	
 	int AlbumsListSize = AlbumsList.size();
 	/*if(request.getParameter("keywords_checkbox")!=null && request.getParameter("search_name").trim().length()==0)

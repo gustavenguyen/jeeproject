@@ -8,11 +8,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
-
+	 <script src="js/jquery.js"></script>
+   
+	
 
 <title>Music Library</title>
 
 <!-- Bootstrap core CSS -->
+<link href="CSS/base/jquery.ui.all.css" rel="stylesheet" >
 <link href="CSS/bootstrap.css" rel="stylesheet">
 
 <style>
@@ -30,7 +33,7 @@
 	height: 32px;
 	vertical-align: baseline;
 }
-#search_block, #keywords_block{
+#search_block,#keywords_block, #sortby_block{
 float:left;
 margin-top:5px;
 }
@@ -61,7 +64,91 @@ border-top:none;
 .table{
 margin-top:-10px;
 }
+.ui-autocomplete { position: absolute; cursor: default;z-index:1000;}
 </style>
+	<script>
+
+	 $(function() {	
+		 function log( message ) {
+				$( "<div>" ).text( message ).prependTo( "#log" );
+				$( "#log" ).scrollTop( 0 );
+			}
+		$( "#input_research" ).autocomplete({
+
+			source: function( request, response ) {
+				var searchcriteria = $("#select_type").val();
+				
+				var serviceUrl= "http://localhost:8080/peguno-project/rest/api/albums/byalbumtitle";
+			
+			    if($.trim(searchcriteria) == "songtitle")
+					serviceUrl = "http://localhost:8080/peguno-project/rest/api/songs/bytitle";
+			    if($.trim(searchcriteria) == "author")
+					serviceUrl = "http://localhost:8080/peguno-project/rest/api/artists/byname";
+				$.ajax({
+					
+					url: serviceUrl,
+					dataType: "json",
+					data: {
+					
+						name: request.term
+					},
+					success: function( data ) {
+						
+						if($.trim(searchcriteria) == "albumtitle")
+							{
+						
+						response( $.map( data, function( item ) {
+							return {
+								label: item.title,
+								value: item.title
+							}
+						}));
+							}
+						else if($.trim(searchcriteria) == "author")
+							{
+							  response( $.map( data, function( item ) {
+								return {
+									label: item.name,
+									value: item.name
+								}
+							}));
+							}
+						else
+							{
+							 response( $.map( data, function( item ) {
+									
+								 return {
+										label: item.title + ", "+item.artist,
+										artist:item.artist,
+										value: item.title
+									}
+								}));
+							
+							}
+							
+					}
+				});
+			},
+			minLength: 2,
+			select: function( event, ui ) {
+				log( ui.item ?
+					"Selected: " + ui.item.label :
+					"Nothing selected, input was " + this.value);
+			if(ui.item.artist !=null)
+				{$("#input_artist_name").val(ui.item.artist);
+			     $('#input_artist_name').prop("disabled", false);}
+			
+			},
+			open: function() {
+				$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+			},
+			close: function() {
+				$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+			}
+		});
+	 });
+	
+	</script>
 </head>
 
 <body >
@@ -77,10 +164,11 @@ margin-top:-10px;
 
 			<form class="form-inline">
 
-			<div id="search_block">	Search &nbsp;&nbsp;&nbsp;
-				<input type="checkbox"  name ="keywords_checkbox" id="useKeywords"> with keywords<br>
+			<div id="search_block">	Search by&nbsp;&nbsp;&nbsp;
+				
 			</div>
-				<div id="keywords_block" style="display:none;">&nbsp;&nbsp;&nbsp;<select name="search_type" id="select_type" disabled="disabled">
+				<div id="keywords_block">&nbsp;&nbsp;&nbsp;<select name="search_type" id="select_type" >
+				         <option value="category">category</option>	
 				        <option value="albumtitle">Album title</option>		
 				        <option value="songtitle">Song title</option>
 						<option value="author">author</option>
@@ -88,18 +176,19 @@ margin-top:-10px;
 				</select>&nbsp;&nbsp;&nbsp;
 				<div class="form-group">
 
-					<input type="text" name="search_name" class="form-control" type="text" id="input_research" style="padding:0px 12px;" >
+					<input type="text" name="search_name" class="form-control" id="input_research" style="padding:0px 12px;display:none;" disabled="disabled">
 				</div>
 				</div> <div id="sortby_block">
-				&nbsp; &nbsp; &nbsp;by category &nbsp;&nbsp;&nbsp; <select
-					name="category_selected">
+				 <select
+					name="category_selected" id="select_category">
 					<option value="all">All</option>
 					<c:forEach var="category" items="${CategoriesList}">
 						<option value="${category}">${category}</option>
 					</c:forEach>
-				</select> &nbsp;&nbsp;&nbsp;
+				</select> 	</div>&nbsp;&nbsp;&nbsp;
+				<input type="text" name="artist" class="form-control" id="input_artist_name" style="padding:0px 12px;display:none;" disabled="disabled">
 				<button type="submit" class="btn btn-primary" id="btn_valider">Validate</button>
-				</div>
+			
 			</form>
 
 
@@ -134,6 +223,7 @@ margin-top:-10px;
   <a href="<%=request.getContextPath()+"?"+request.getAttribute( "QueryString")%>&page=${i}">  <c:out value="${i}"/> </a>
 </c:forEach>
 	
+
 </div>
 
 		<jsp:include page="footer.jsp" />
@@ -155,12 +245,34 @@ $(document).ready(function(){
    
         // Uncheck all checkboxes on page load    
        $(':checkbox:checked').removeAttr('checked');
-   
+       $('#select_type').change(function() {
+    	    var selected = $(this).val();
+    	    if(selected == 'category'){
+    	      $('#input_research').hide();
+    	      $('#select_category').show();
+    	      $('#select_category').prop('disabled', false);
+    	    }
+    	    else{
+    	      $('#select_category').hide();
+    	      $('#select_category').prop('disabled', true);
+    	      $('#input_research').show();
+    	      $("#input_research").prop('disabled', false);
+    	    }
+    	});
+       
+
+      
+
 });
 
-</script>
-	
 
+</script>
+
+	<script src="js/jquery.ui.core.js"></script>
+	<script src="js/jquery.ui.widget.js"></script>
+	<script src="js/jquery.ui.position.js"></script>
+	<script src="js/jquery.ui.menu.js"></script>
+	<script src="js/jquery.ui.autocomplete.js"></script>
 
 
 </body>
