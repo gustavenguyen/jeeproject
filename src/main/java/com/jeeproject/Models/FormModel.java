@@ -51,7 +51,8 @@ public class FormModel {
 	   
 	}
 	private void validateEmail( String email )  {
-	    if (!email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" ) ) 
+		String regex="([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)";
+	    if (!email.matches( regex ) ) 
 	        	errors.put("email","Email address is not valid");
 	    else if(!userDAO.CheckEmailAvailable(email))
 	    {
