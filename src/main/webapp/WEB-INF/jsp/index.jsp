@@ -78,12 +78,12 @@ margin-top:-10px;
 			source: function( request, response ) {
 				var searchcriteria = $("#select_type").val();
 				
-				var serviceUrl= "http://localhost:8080/peguno-project/rest/api/albums/byalbumtitle";
+				var serviceUrl= "rest/api/albums/byalbumtitle";
 			
 			    if($.trim(searchcriteria) == "songtitle")
-					serviceUrl = "http://localhost:8080/peguno-project/rest/api/songs/bytitle";
+					serviceUrl = "rest/api/songs/bytitle";
 			    if($.trim(searchcriteria) == "author")
-					serviceUrl = "http://localhost:8080/peguno-project/rest/api/artists/byname";
+					serviceUrl = "rest/api/artists/byname";
 				$.ajax({
 					
 					url: serviceUrl,
@@ -249,6 +249,7 @@ $(document).ready(function(){
     	    var selected = $(this).val();
     	    if(selected == 'category'){
     	      $('#input_research').hide();
+    	      $("#input_research").prop('disabled', true);
     	      $('#select_category').show();
     	      $('#select_category').prop('disabled', false);
     	    }
@@ -259,10 +260,20 @@ $(document).ready(function(){
     	      $("#input_research").prop('disabled', false);
     	    }
     	});
-       
-
-      
-
+       var searchparam = "<c:out value='${param.search_type}'/>";
+     
+       if(searchparam == 'albumtitle')
+       {   $('#select_type option')[1].selected = true;
+         $('#select_type').trigger("change");
+       }
+       else if(searchparam == 'songtitle')
+       {   $('#select_type option')[2].selected = true;
+         $('#select_type').trigger("change");
+       }
+       else if(searchparam == 'author')
+     {   $('#select_type option')[3].selected = true;
+       $('#select_type').trigger("change");
+     }
 });
 
 

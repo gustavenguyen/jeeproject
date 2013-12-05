@@ -147,7 +147,7 @@ border-top: none;
                                                  
 												$.ajax({
 															type : "GET",
-                                                            url : "/peguno-project/rest/api/like?album="+ VarAlbumId+ "&user="+VarLoggedInUser,
+                                                            url : "rest/api/like?album="+ VarAlbumId+ "&user="+VarLoggedInUser,
           													dataType : "json",
 															success : function(
 																	data) {

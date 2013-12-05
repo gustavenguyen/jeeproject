@@ -65,7 +65,7 @@ public class Home extends HttpServlet {
 			  	
 			
 			// en fonction de la recherche de l'utilisateur, renvoie une liste d'albums spécifique
-	        if(request.getParameter("search_type")!=null && request.getParameter("search_type").equals("category"))
+	        if(request.getParameter("search_type")!=null && request.getParameter("search_type").equals("category") && request.getParameter("category_selected")!=null && !request.getParameter("category_selected").equals("all"))
 	
 		    {
 		    
