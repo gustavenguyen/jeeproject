@@ -2,7 +2,9 @@ package com.jeeproject.Entities;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -59,7 +61,8 @@ public void setMessage(String message) {
 	this.message = message;
 }
 public String getDate() {
-	 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm",Locale.US);
+	 sdf.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
 	    String currentDate = sdf.format(this.date);
 	return currentDate;
 }
