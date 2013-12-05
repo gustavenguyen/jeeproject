@@ -106,10 +106,10 @@ public class AlbumDetails extends HttpServlet {
 		album_id= Integer.parseInt(request.getParameter("album"));
 		AlbumDAO albumdao = new AlbumDAOImpl();
 		Album chosen_album=albumdao.find(album_id);
-		HttpSession session = request.getSession(true);   
+		HttpSession session = request.getSession();   
 		User userconnected = (User) session.getAttribute("session_user");
-   
-	
+        System.out.println(userconnected.getUsername());
+	    if(request.getParameter("comment_value")!=null)System.out.println(request.getParameter("comment_value"));
 			
 	    if (request.getParameter("comment_value").trim().length() > 0 )
 		{System.out.println("not null");
@@ -124,7 +124,7 @@ public class AlbumDetails extends HttpServlet {
 	    else
 	    {
 	    	
-	    	
+	    	System.out.println("here");
 	    	request.setAttribute( "error", "empty text" );
 	    	   this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 	    	

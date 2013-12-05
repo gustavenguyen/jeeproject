@@ -19,7 +19,7 @@
 	<div class="container">
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li><a href="<%=request.getContextPath()%>" id="home_link">Home</a></li>
+				<li><a href="<%=request.getContextPath()%>/" id="home_link">Home</a></li>
 				<li><a href="<%=request.getContextPath()%>/discoverapi">Use our API </a></li>
 				<li><a href="<%=request.getContextPath()%>/about">About</a></li>
 

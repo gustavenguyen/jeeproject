@@ -230,21 +230,7 @@ margin-top:-10px;
 	</div>
 <script>
 $(document).ready(function(){
-    $('#useKeywords').change(function(){
-        if(this.checked)
-        {        $('#keywords_block').stop( true, true ).fadeIn();
-        $('#select_type').prop("disabled", false);
-        $('#input_research').prop("disabled", false);
-        }else
-        	{
-        	$('#keywords_block').stop( true, true ).fadeOut();
-        	   $('#select_type').prop("disabled", true);
-        	   $('#input_research').prop("disabled", true);
-        	}
-    });
    
-        // Uncheck all checkboxes on page load    
-       $(':checkbox:checked').removeAttr('checked');
        $('#select_type').change(function() {
     	    var selected = $(this).val();
     	    if(selected == 'category'){

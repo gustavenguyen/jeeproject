@@ -1,12 +1,15 @@
 package com.jeeproject.Services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import java.util.Map;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -16,11 +19,16 @@ import javax.ws.rs.core.MediaType;
 import com.google.inject.Inject;
 import com.jeeproject.Entities.Album;
 import com.jeeproject.Entities.Artist;
+import com.jeeproject.Entities.Comment;
 import com.jeeproject.Entities.Song;
+import com.jeeproject.Entities.User;
 import com.jeeproject.Models.AlbumDAO;
 import com.jeeproject.Models.ArtistDAO;
+import com.jeeproject.Models.CommentDAO;
+import com.jeeproject.Models.CommentDAOImpl;
 import com.jeeproject.Models.LikeDAO;
 import com.jeeproject.Models.SongDAO;
+import com.jeeproject.Models.UserDAO;
 
 
 @Path("/api")
@@ -31,12 +39,16 @@ public class APIService {
 	 private LikeDAO likedao;
 	 private ArtistDAO artistdao;
 	 private SongDAO songdao;
+	 private UserDAO userdao;
+	 private CommentDAO commentdao;
 	@Inject 
-	public APIService(AlbumDAO albumDAO, LikeDAO likeDAO, ArtistDAO artistDAO, SongDAO songDAO) { 
+	public APIService(AlbumDAO albumDAO, LikeDAO likeDAO, ArtistDAO artistDAO, SongDAO songDAO,UserDAO userDAO, CommentDAO commentDAO) { 
 		this.albumdao = albumDAO;
 		this.likedao=likeDAO;
 		this.artistdao=artistDAO;
 		this.songdao=songDAO;
+		this.userdao=userDAO;
+		this.commentdao=commentDAO;
 	 }
 	@GET
 	@Path("/like")
@@ -60,6 +72,36 @@ public class APIService {
 	
 			}
 
+		return results;
+	}
+	@POST
+	@Path("/comments/add")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Map<String, String> addComment(
+			 @FormParam("comment_value") String comment_value,
+			 @FormParam("album") String album_id,
+			 @FormParam("loggeduser") String loggeduser_name) {
+		System.out.println("service started...");
+		
+		System.out.println("loggedyser"+loggeduser_name);
+		Map<String, String> results = new HashMap<String, String>();
+		 if (comment_value.trim().length() > 0 )
+			{System.out.println("not null");
+	
+			Album chosen_album=albumdao.find(Integer.parseInt(album_id));
+			User loggeduser = userdao.findUserByName(loggeduser_name.trim());
+	        Comment newComment = new Comment(loggeduser,comment_value, new Date(), chosen_album);
+		    
+		    commentdao.addComment(newComment);
+		
+		    results.put("success", "1");
+			}
+		    else
+		    {
+		    	results.put("success", "0");
+		    	
+		    	
+		}
 		return results;
 	}
 	

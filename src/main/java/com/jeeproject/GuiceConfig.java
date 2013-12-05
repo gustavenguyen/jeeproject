@@ -14,10 +14,14 @@ import com.jeeproject.Models.AlbumDAO;
 import com.jeeproject.Models.AlbumDAOImpl;
 import com.jeeproject.Models.ArtistDAO;
 import com.jeeproject.Models.ArtistDAOImpl;
+import com.jeeproject.Models.CommentDAO;
+import com.jeeproject.Models.CommentDAOImpl;
 import com.jeeproject.Models.LikeDAO;
 import com.jeeproject.Models.LikeDAOImpl;
 import com.jeeproject.Models.SongDAO;
 import com.jeeproject.Models.SongDAOImpl;
+import com.jeeproject.Models.UserDAO;
+import com.jeeproject.Models.UserDAOImpl;
 import com.jeeproject.Services.APIService;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
@@ -40,6 +44,8 @@ public class GuiceConfig extends GuiceServletContextListener {
              bind(LikeDAO.class ).to( LikeDAOImpl.class );
              bind(ArtistDAO.class ).to( ArtistDAOImpl.class );
              bind(SongDAO.class ).to( SongDAOImpl.class );
+             bind(UserDAO.class ).to( UserDAOImpl.class );
+             bind(CommentDAO.class ).to( CommentDAOImpl.class );
              bind(APIService.class);
              bind(MessageBodyReader.class).to(JacksonJsonProvider.class);
              bind(MessageBodyWriter.class).to(JacksonJsonProvider.class);

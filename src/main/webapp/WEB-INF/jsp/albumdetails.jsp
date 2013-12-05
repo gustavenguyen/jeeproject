@@ -128,10 +128,11 @@ border-top: none;
 			<br />
 			<c:if test="${!empty session_user }">
 			<form method="POST">
-				<textarea class="form-control" rows="3" name="comment_value"></textarea>
-				<button type="submit" class="btn btn-default">Submit</button>
+				<textarea class="form-control" rows="3" name="comment_value" id="comment_text"></textarea>
+				<button class="btn btn-default" type="button" id="submit_comment">Submit</button>
 			</form>
 				</c:if>
+	
 		</div>
 
 		<jsp:include page="footer.jsp" />
@@ -171,7 +172,48 @@ border-top: none;
 						});
 	</script>
 
+<script type="text/javascript">
+	
+		$("#submit_comment").click(function(event) {
+			var album_id ="<c:out value='${param.album}'/>";
+			var loggeduser ="<c:out value='${sessionScope.session_user.username}'/>";
+			var serviceUrl = "rest/api/comments/add";
+			var redirect="<c:out value='${request.getContextPath()}'/>"+"albumdetails?album="+album_id;
+			var text = $.trim($("#comment_text").val());
+			if(text.length >5 )
+			{
+			
+		
+			var myDataObject = {
+				"comment_value" : text,
+				"album": album_id,
+				"loggeduser": loggeduser,
+			};
 
+			$.ajax({
+				dataType : "text",
+				type : "POST",
+				url : serviceUrl,
+				data : myDataObject,
+				success : function(msg) {
+					
+					var result = $.trim(msg);
+					if (result == "wrong")
+						alert("Invalid login/password pair");
+					else
+						window.location.replace(redirect);
+				}
+			});
+			}
+			else if( text.length>0 && text.length <6)
+				 alert("Comment must contain at least 6 characters")
+				 else
+					 alert("Comment can't be empty");
+		
+		});
+		
+		
+</script>
 
 
 </body>

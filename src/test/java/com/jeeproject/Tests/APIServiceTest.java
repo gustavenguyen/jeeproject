@@ -16,8 +16,10 @@ import com.jeeproject.Entities.Artist;
 import com.jeeproject.Entities.Like;
 import com.jeeproject.Models.AlbumDAO;
 import com.jeeproject.Models.ArtistDAO;
+import com.jeeproject.Models.CommentDAO;
 import com.jeeproject.Models.LikeDAO;
 import com.jeeproject.Models.SongDAO;
+import com.jeeproject.Models.UserDAO;
 import com.jeeproject.Services.APIService;
 
 public class APIServiceTest {
@@ -30,8 +32,9 @@ public class APIServiceTest {
 		Artist artist = mock(Artist.class);
 		ArtistDAO artistdao = mock(ArtistDAO.class);
 		SongDAO songdao = mock(SongDAO.class);
-		
-		APIService service = new APIService(dao, likedao,artistdao,songdao);
+		UserDAO userdao = mock(UserDAO.class);
+		CommentDAO commentdao = mock(CommentDAO.class);
+		APIService service = new APIService(dao, likedao,artistdao,songdao, userdao,commentdao);
 
 		List<Album> Albums = new ArrayList<Album>();
 		Albums.add(new Album(1, "Mylo Xyloto", "Pop", 2011, artist)); //des que la dao va rechercher un album on retourne celui-ci
@@ -62,8 +65,9 @@ public class APIServiceTest {
 		LikeDAO likedao = mock(LikeDAO.class);
 		ArtistDAO artistdao = mock(ArtistDAO.class);
 		SongDAO songdao = mock(SongDAO.class);
-		
-		APIService service = new APIService(albumdao, likedao, artistdao, songdao);
+		UserDAO userdao = mock(UserDAO.class);
+		CommentDAO commentdao = mock(CommentDAO.class);
+		APIService service = new APIService(albumdao, likedao,artistdao,songdao, userdao,commentdao);
 		Like Like = new Like();
 	
 	when(likedao.HasUserLiked("12", "I_have_liked")).thenReturn(Like);
